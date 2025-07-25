@@ -59,12 +59,23 @@
                             @foreach($pedido->items as $item)
                                 <tr>
                                     <td>
-                                        <strong>{{ $item->producto->nombre }}</strong>
-                                        @if($item->producto->es_combo)
-                                            <span class="badge bg-warning text-dark ms-1">Combo</span>
+                                        @if($item->producto)
+                                            <strong>{{ $item->producto->nombre }}</strong>
+                                            @if($item->producto->es_combo)
+                                                <span class="badge bg-warning text-dark ms-1">Combo</span>
+                                            @endif
+                                        @else
+                                            <strong class="text-muted">Producto eliminado</strong>
+                                            <span class="badge bg-secondary ms-1">No disponible</span>
                                         @endif
                                     </td>
-                                    <td><code>{{ $item->producto->sku }}</code></td>
+                                    <td>
+                                        @if($item->producto)
+                                            <code>{{ $item->producto->sku }}</code>
+                                        @else
+                                            <code class="text-muted">N/A</code>
+                                        @endif
+                                    </td>
                                     <td>{{ $item->cantidad }}</td>
                                     <td>${{ number_format($item->precio_unit_l1, 2) }}</td>
                                     <td><strong>${{ number_format($item->subtotal, 2) }}</strong></td>
@@ -170,8 +181,13 @@
                                 @foreach($pedido->items as $index => $item)
                                 <tr data-item-id="{{ $item->id }}">
                                     <td>
-                                        <strong>{{ $item->producto->nombre }}</strong><br>
-                                        <small class="text-muted">{{ $item->producto->sku }} - ${{ number_format($item->precio_unit_l1, 2) }}</small>
+                                        @if($item->producto)
+                                            <strong>{{ $item->producto->nombre }}</strong><br>
+                                            <small class="text-muted">{{ $item->producto->sku }} - ${{ number_format($item->precio_unit_l1, 2) }}</small>
+                                        @else
+                                            <strong class="text-muted">Producto eliminado</strong><br>
+                                            <small class="text-muted">N/A - ${{ number_format($item->precio_unit_l1, 2) }}</small>
+                                        @endif
                                     </td>
                                     <td>
                                         <input type="number" 
@@ -179,13 +195,22 @@
                                                value="{{ $item->cantidad }}" 
                                                class="form-control" 
                                                min="1" 
-                                               max="{{ $item->producto->stock_actual + $item->cantidad }}"
-                                               data-original="{{ $item->cantidad }}">
-                                        <input type="hidden" name="items[{{ $item->id }}][producto_id]" value="{{ $item->producto->id }}">
+                                               max="{{ $item->producto ? ($item->producto->stock_actual + $item->cantidad) : 999 }}"
+                                               data-original="{{ $item->cantidad }}"
+                                               {{ $item->producto ? '' : 'disabled' }}>
+                                        <input type="hidden" name="items[{{ $item->id }}][producto_id]" value="{{ $item->producto ? $item->producto->id : '' }}">
+                                        @if(!$item->producto)
+                                            <small class="text-muted">Producto eliminado - no se puede editar</small>
+                                        @endif
                                     </td>
                                     <td>
-                                        <span class="badge bg-info">{{ $item->producto->stock_actual + $item->cantidad }}</span>
-                                        <small class="text-muted d-block">Actual + Pedido</small>
+                                        @if($item->producto)
+                                            <span class="badge bg-info">{{ $item->producto->stock_actual + $item->cantidad }}</span>
+                                            <small class="text-muted d-block">Actual + Pedido</small>
+                                        @else
+                                            <span class="badge bg-secondary">N/A</span>
+                                            <small class="text-muted d-block">Producto eliminado</small>
+                                        @endif
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeItem(this)">

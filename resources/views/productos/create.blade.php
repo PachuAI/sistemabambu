@@ -75,10 +75,24 @@
                 </div>
                 
                 <div class="col-md-3 mb-3">
+                    <label for="marca_producto" class="form-label">Marca</label>
+                    <select class="form-select @error('marca_producto') is-invalid @enderror" 
+                            id="marca_producto" name="marca_producto" required>
+                        <option value="bambu" {{ old('marca_producto') == 'bambu' ? 'selected' : '' }}>BAMBU</option>
+                        <option value="saphirus" {{ old('marca_producto') == 'saphirus' ? 'selected' : '' }}>Saphirus</option>
+                    </select>
+                    @error('marca_producto')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     <label for="es_combo" class="form-label">Tipo de Producto</label>
                     <select class="form-select @error('es_combo') is-invalid @enderror" 
                             id="es_combo" name="es_combo" required>
-                        <option value="0" {{ old('es_combo') == '0' ? 'selected' : '' }}>Producto Regular</option>
+                        <option value="0" {{ old('es_combo') == '0' ? 'selected' : '' }}>Individual</option>
                         <option value="1" {{ old('es_combo') == '1' ? 'selected' : '' }}>Combo (Sin descuento)</option>
                     </select>
                     @error('es_combo')

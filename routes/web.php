@@ -32,6 +32,7 @@ Route::get('/test', function () {
 Route::resource('ciudades',  CiudadController::class);
 Route::resource('clientes',  ClienteController::class);
 Route::resource('productos', ProductoController::class);
+Route::delete('/productos-multiple', [ProductoController::class, 'deleteMultiple'])->name('productos.deleteMultiple');
 
 // Pedidos
 Route::get('/pedidos', [App\Http\Controllers\PedidoController::class, 'index'])->name('pedidos.index');

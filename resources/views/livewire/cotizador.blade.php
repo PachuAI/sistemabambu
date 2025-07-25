@@ -113,10 +113,6 @@
                 </div>
             </div>
 
-            <!-- DEBUG: JSON de items -->
-            <pre style="background:#222;color:#0f0;padding:.5rem">
-                {{ json_encode($items, JSON_PRETTY_PRINT) }}
-            </pre>
 
             <!-- Items del Pedido -->
             @if(!empty($items))
@@ -156,7 +152,7 @@
                                                        class="form-control form-control-sm"
                                                        min="1"
                                                        max="{{ $item['stock_disponible'] }}"
-                                                       wire:model.defer="items.{{ $id }}.cantidad">
+                                                       wire:model.live="items.{{ $id }}.cantidad">
                                             </td>
                                             <td>
                                                 <span class="badge bg-info">
@@ -342,25 +338,11 @@ function copyToClipboard() {
 document.addEventListener('livewire:initialized', () => {
     // Evento cuando se agrega un producto
     Livewire.on('producto-agregado', (event) => {
-        console.log('✅ Producto agregado:', event[0] || event);
-        
-        // Detectar tabla de productos para debug
-        const tabla = document.querySelector('tbody');
-        if (tabla) {
-            const filas = tabla.querySelectorAll('tr');
-            console.log('📊 Filas en tabla:', filas.length);
-            
-            // Debug: mostrar IDs únicos de cada fila
-            filas.forEach((fila, index) => {
-                const idUnico = fila.querySelector('small')?.textContent.match(/Único: (item_\d+_[\d.]+_\d+)/)?.[1];
-                console.log(`Fila ${index}: ${idUnico}`);
-            });
-        }
+        // Producto agregado exitosamente
     });
     
     // Evento de pedido confirmado
     Livewire.on('pedido-confirmado', (event) => {
-        console.log('Evento pedido-confirmado recibido:', event);
         
         // Obtener el ID del pedido desde el evento
         const pedidoId = event[0]?.pedidoId || event.pedidoId || 'N/A';

@@ -105,10 +105,6 @@ class Cotizador extends Component
             ->get();
 
         // Debug: Log de productos encontrados
-        \Log::info("Búsqueda: '{$this->searchProducto}' - Encontrados: " . $productos->count());
-        foreach ($productos as $prod) {
-            \Log::info("- ID: {$prod->id}, Nombre: {$prod->nombre}");
-        }
 
         $this->productosEncontrados = $productos;
         $this->mostrarProductosDropdown = $productos->count() > 0;
@@ -141,23 +137,12 @@ class Cotizador extends Component
             'peso_kg' => (float)($producto->peso_kg ?? 5.0),
         ];
         
-        \Log::info("Creando item: " . json_encode([
-            'itemId' => $itemId,
-            'producto_id' => $producto->id,
-            'nombre' => $producto->nombre,
-            'id_unico_en_item' => $nuevoItem['id_unico']
-        ]));
         
         // SOLUCION RADICAL: Forzar deep clone para evitar referencias compartidas
         $itemsTemp = json_decode(json_encode($this->items), true);
         $itemsTemp[$itemId] = json_decode(json_encode($nuevoItem), true);
         $this->items = $itemsTemp;
         
-        // DEBUG: Verificar claves y contenido inmediatamente después
-        \Log::info("Claves del array items: " . json_encode(array_keys($this->items)));
-        \Log::info("VERIFICACION INMEDIATA - Items completos: " . json_encode(array_map(function($item) {
-            return ['nombre' => $item['nombre'], 'id_unico' => $item['id_unico']];
-        }, $this->items)));
         
         // Limpiar búsqueda
         $this->searchProducto = '';
@@ -176,14 +161,19 @@ class Cotizador extends Component
         
         session()->flash('success', "Producto {$producto->nombre} agregado correctamente");
         
-        \Log::info("Producto {$producto->nombre} (ID: {$producto->id}) agregado. Total items: " . count($this->items));
     }
 
 
     public function actualizarCantidad($id, $cantidad)
     {
+        $cantidad = (int)$cantidad;
+        
         if ($cantidad <= 0) {
             $this->quitarItem($id);
+            return;
+        }
+
+        if (!isset($this->items[$id])) {
             return;
         }
 
@@ -192,8 +182,12 @@ class Cotizador extends Component
             return;
         }
 
-        $this->items[$id]['cantidad'] = $cantidad;
-        $this->items[$id]['subtotal'] = $cantidad * $this->items[$id]['precio_base_l1'];
+        // Actualización forzada del array sin referencias
+        $itemsTemp = $this->items;
+        $itemsTemp[$id]['cantidad'] = $cantidad;
+        $itemsTemp[$id]['subtotal'] = $cantidad * $itemsTemp[$id]['precio_base_l1'];
+        $this->items = $itemsTemp;
+        
         $this->calcularTotales();
     }
 
@@ -203,20 +197,41 @@ class Cotizador extends Component
         $this->calcularTotales();
     }
 
-    // SOLUCION: Eliminar updatedItems() que está corrompiendo el array
-    // Este método se dispara automáticamente y está causando el problema
+    // Método para reaccionar a cambios en items específicos
+    public function updatedItems($value, $key)
+    {
+        
+        // Solo procesar si se cambió una cantidad
+        if (str_contains($key, '.cantidad')) {
+            // Extraer el ID del item del key (formato: itemId.cantidad)
+            $itemId = explode('.', $key)[0];
+            
+            if (isset($this->items[$itemId])) {
+                $cantidad = (int)$value;
+                
+                // Validaciones
+                if ($cantidad <= 0) {
+                    $this->quitarItem($itemId);
+                    return;
+                }
+                
+                if ($cantidad > $this->items[$itemId]['stock_disponible']) {
+                    session()->flash('error', 'Cantidad excede stock disponible');
+                    // Revertir a cantidad anterior
+                    $this->items[$itemId]['cantidad'] = 1;
+                    return;
+                }
+                
+                // Actualizar subtotal
+                $this->items[$itemId]['subtotal'] = $cantidad * $this->items[$itemId]['precio_base_l1'];
+            }
+            
+            $this->calcularTotales();
+        }
+    }
 
     public function calcularTotales()
     {
-        \Log::info("=== CALCULANDO TOTALES ===");
-        \Log::info("Items para calcular: " . json_encode(array_map(function($item) {
-            return [
-                'nombre' => $item['nombre'], 
-                'cantidad' => $item['cantidad'], 
-                'precio_base_l1' => $item['precio_base_l1'],
-                'subtotal' => $item['subtotal']
-            ];
-        }, $this->items)));
         
         // Calcular monto bruto (excluyendo combos para determinar descuento)
         $montoParaDescuento = 0;
@@ -231,7 +246,6 @@ class Cotizador extends Component
             }
         }
         
-        \Log::info("Monto total calculado: $montoTotal");
 
         $this->montoBruto = $montoTotal;
 
@@ -304,27 +318,21 @@ class Cotizador extends Component
 
     public function confirmarPedido()
     {
-        \Log::info("=== CONFIRMAR PEDIDO ===");
-        \Log::info("Cliente: " . ($this->clienteSeleccionado ? $this->clienteSeleccionado->nombre : 'NULL'));
-        \Log::info("Items: " . count($this->items));
         
         // Prevenir doble confirmación (menos de 3 segundos entre confirmaciones)
         $ahora = now();
         if ($this->ultimaConfirmacion && $this->ultimaConfirmacion->diffInSeconds($ahora) < 3) {
-            \Log::info("BLOQUEO: Doble confirmación detectada");
             session()->flash('error', 'Espere un momento antes de confirmar nuevamente');
             return;
         }
         
         // Validaciones básicas
         if (!$this->clienteSeleccionado || empty($this->items)) {
-            \Log::info("ERROR: Faltan datos - Cliente: " . ($this->clienteSeleccionado ? 'OK' : 'FALTA') . " Items: " . count($this->items));
             session()->flash('error', 'Debe seleccionar un cliente y agregar productos');
             return;
         }
 
         $this->ultimaConfirmacion = $ahora;
-        \Log::info("Iniciando transacción...");
         
         try {
             $pedido = null;
@@ -397,7 +405,6 @@ class Cotizador extends Component
             );
 
             // 5. Si llegamos aquí, todo salió bien - limpiar cotización y mostrar mensaje
-            \Log::info("Pedido creado exitosamente: #{$pedido->id}");
             
             $this->limpiarCotizacion();
             session()->flash('success', "¡Pedido #{$pedido->id} confirmado exitosamente! Stock actualizado automáticamente.");
@@ -408,7 +415,6 @@ class Cotizador extends Component
                 'mensaje' => "¡Pedido #{$pedido->id} confirmado exitosamente!"
             ]);
             
-            \Log::info("Proceso de confirmación completado");
 
         } catch (\Exception $e) {
             \Log::error("Error al confirmar pedido: " . $e->getMessage());

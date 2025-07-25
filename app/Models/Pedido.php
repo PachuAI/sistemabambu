@@ -63,7 +63,12 @@ class Pedido extends Model
     public function getBultosTotalesAttribute(): float
     {
         $pesoTotal = $this->items->sum(function($item) {
-            return $item->cantidad * $item->producto->peso_kg;
+            // Verificar que el producto existe y tiene peso_kg
+            if ($item->producto && $item->producto->peso_kg) {
+                return $item->cantidad * $item->producto->peso_kg;
+            }
+            // Si el producto fue eliminado, usar peso por defecto de 5kg
+            return $item->cantidad * 5.0;
         });
         
         return round($pesoTotal / 5, 2);
@@ -82,15 +87,20 @@ class Pedido extends Model
         // Agrupar productos por tipo para resumen
         $resumen = [];
         foreach ($this->items as $item) {
-            if ($item->producto->es_combo) {
-                $resumen[] = $item->cantidad . " combo " . $item->producto->nombre;
-            } else {
-                $nombre = strtolower($item->producto->nombre);
-                if (str_contains($nombre, 'lavandina')) {
-                    $resumen[] = $item->cantidad . " lavandina";
+            if ($item->producto) {
+                if ($item->producto->es_combo) {
+                    $resumen[] = $item->cantidad . " combo " . $item->producto->nombre;
                 } else {
-                    $resumen[] = $item->cantidad . " " . $item->producto->nombre;
+                    $nombre = strtolower($item->producto->nombre);
+                    if (str_contains($nombre, 'lavandina')) {
+                        $resumen[] = $item->cantidad . " lavandina";
+                    } else {
+                        $resumen[] = $item->cantidad . " " . $item->producto->nombre;
+                    }
                 }
+            } else {
+                // Si el producto fue eliminado, usar información genérica
+                $resumen[] = $item->cantidad . " producto (eliminado)";
             }
         }
         

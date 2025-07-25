@@ -17,6 +17,7 @@ class Producto extends Model
         'precio_base_l1',
         'stock_actual',
         'es_combo',
+        'marca_producto',
         'descripcion',
         'peso_kg',
     ];
@@ -43,6 +44,7 @@ class Producto extends Model
             'nombre' => $this->nombre,
             'sku' => $this->sku,
             'stock_actual' => $this->stock_actual,
+            'marca_producto' => $this->marca_producto,
         ];
     }
 }
