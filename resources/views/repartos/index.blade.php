@@ -15,6 +15,18 @@
 </div>
 
 <!-- Pestañas de días de la semana -->
+<div class="mb-3">
+    <div class="alert alert-info d-flex align-items-center">
+        <i class="bi bi-info-circle me-2"></i>
+        <div>
+            <strong>Sistema de Planificación:</strong> 
+            El calendario muestra la semana que contiene la fecha seleccionada. 
+            Puedes navegar a cualquier fecha usando el selector de fecha o hacer clic en los días de la semana.
+            <small class="d-block text-muted">Los repartos se organizan por día y se pueden planificar con anticipación.</small>
+        </div>
+    </div>
+</div>
+
 <ul class="nav nav-tabs mb-4" id="weekTabs" role="tablist">
     @php
         $fechaBase = \Carbon\Carbon::parse($fechaSeleccionada);
@@ -27,6 +39,7 @@
             $fecha = $inicioSemana->copy()->addDays($i);
             $isActive = $fecha->format('Y-m-d') === $fechaSeleccionada;
             $isToday = $fecha->isToday();
+            $repartosCount = \App\Models\Reparto::where('fecha_reparto', $fecha->format('Y-m-d'))->count();
         @endphp
         <li class="nav-item" role="presentation">
             <button class="nav-link {{ $isActive ? 'active' : '' }} {{ $isToday ? 'fw-bold' : '' }}" 
@@ -37,6 +50,9 @@
                 <small class="text-muted">{{ $fecha->format('d/m') }}</small>
                 @if($isToday)
                     <small class="badge bg-primary ms-1">Hoy</small>
+                @endif
+                @if($repartosCount > 0)
+                    <small class="badge bg-success ms-1">{{ $repartosCount }}</small>
                 @endif
             </button>
         </li>
@@ -190,7 +206,7 @@
                 <h5 class="modal-title">Asignar Pedido al Reparto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('repartos.asignar') }}" method="POST">
+            <form action="{{ route('repartos.asignar') }}" method="POST" id="formAsignar">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="fecha_reparto" value="{{ $fechaSeleccionada }}">
@@ -223,7 +239,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Asignar</button>
+                    <button type="submit" class="btn btn-primary" id="btnAsignar">Asignar</button>
                 </div>
             </form>
         </div>
@@ -249,14 +265,23 @@ function mostrarModalAsignar(pedidoId, clienteNombre, bultos) {
     document.getElementById('modalClienteNombre').textContent = clienteNombre;
     document.getElementById('modalBultos').textContent = bultos;
     
-    // Verificar capacidad de vehículos
+    // RESET: Limpiar estado anterior del select
     const select = document.querySelector('select[name="vehiculo_id"]');
+    select.value = ''; // Limpiar selección
+    
+    // Restaurar todas las opciones a su estado original
     Array.from(select.options).forEach(option => {
         if (option.value) {
+            option.disabled = false;
+            // Limpiar texto previo
+            const originalText = option.textContent.split(' (')[0];
             const disponible = parseInt(option.dataset.disponible);
+            
             if (disponible < bultos) {
                 option.disabled = true;
-                option.text += ' (Sin capacidad suficiente)';
+                option.textContent = `${originalText} (Sin capacidad suficiente)`;
+            } else {
+                option.textContent = `${originalText} (${disponible} bultos disponibles)`;
             }
         }
     });
@@ -271,6 +296,21 @@ function desasignarPedido(repartoId) {
         form.submit();
     }
 }
+
+// Prevenir doble envío del formulario
+document.getElementById('formAsignar').addEventListener('submit', function(e) {
+    const btnAsignar = document.getElementById('btnAsignar');
+    
+    // Deshabilitar botón para prevenir doble clic
+    btnAsignar.disabled = true;
+    btnAsignar.innerHTML = '<i class="bi bi-hourglass-split"></i> Asignando...';
+    
+    // Reactivar el botón después de 3 segundos (por si hay error)
+    setTimeout(() => {
+        btnAsignar.disabled = false;
+        btnAsignar.innerHTML = 'Asignar';
+    }, 3000);
+});
 
 // Auto-refresh cada 5 minutos
 setTimeout(() => {

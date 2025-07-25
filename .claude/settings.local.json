@@ -45,7 +45,9 @@
       "Bash(git restore:*)",
       "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan livewire:clear)",
       "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan optimize:clear)",
-      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan --version)"
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan --version)",
+      "Bash(rm:*)",
+      "Bash(del \"C:\\laragon\\www\\sistemastockbambu\\create_test_reparto.php\")"
     ],
     "deny": []
   }

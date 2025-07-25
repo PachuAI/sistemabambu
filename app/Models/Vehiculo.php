@@ -32,7 +32,7 @@ class Vehiculo extends Model
     public function bultosDisponibles($fecha)
     {
         $bultosAsignados = $this->repartos()
-            ->porFecha($fecha)
+            ->where('fecha_reparto', $fecha)
             ->sum('bultos_asignados');
             
         return $this->capacidad_bultos - $bultosAsignados;

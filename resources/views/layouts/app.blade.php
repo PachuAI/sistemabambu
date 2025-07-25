@@ -66,10 +66,27 @@
                             <i class="bi bi-receipt"></i> Pedidos
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('repartos.index') }}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-truck"></i> Repartos
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('vehiculos.index') }}">
+                                    <i class="bi bi-truck-front"></i> Vehículos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('repartos.index') }}">
+                                    <i class="bi bi-calendar-check"></i> Planificación
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('seguimiento.entregas') }}">
+                                    <i class="bi bi-geo-alt"></i> Seguimiento
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('system-logs.index') }}">

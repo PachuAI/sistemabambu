@@ -111,18 +111,31 @@ class RepartoController extends Controller
      */
     private function generarResumenPorCiudad($fecha)
     {
-        return Reparto::porFecha($fecha)
-            ->join('pedidos', 'repartos.pedido_id', '=', 'pedidos.id')
-            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
-            ->join('ciudades', 'clientes.ciudad_id', '=', 'ciudades.id')
-            ->select(
-                'ciudades.nombre as ciudad',
-                DB::raw('SUM(repartos.bultos_asignados) as total_bultos'),
-                DB::raw('COUNT(DISTINCT pedidos.cliente_id) as total_clientes'),
-                DB::raw('COUNT(repartos.id) as total_pedidos')
-            )
-            ->groupBy('ciudades.id', 'ciudades.nombre')
-            ->orderBy('ciudades.nombre')
+        $repartos = Reparto::where('fecha_reparto', $fecha)
+            ->with(['pedido.cliente.ciudad'])
             ->get();
+            
+        $resumen = [];
+        foreach ($repartos as $reparto) {
+            $ciudad = $reparto->pedido->cliente->ciudad->nombre;
+            
+            if (!isset($resumen[$ciudad])) {
+                $resumen[$ciudad] = [
+                    'ciudad' => $ciudad,
+                    'total_bultos' => 0,
+                    'total_clientes' => [],
+                    'total_pedidos' => 0
+                ];
+            }
+            
+            $resumen[$ciudad]['total_bultos'] += $reparto->bultos_asignados;
+            $resumen[$ciudad]['total_clientes'][$reparto->pedido->cliente_id] = true;
+            $resumen[$ciudad]['total_pedidos']++;
+        }
+        
+        return collect($resumen)->map(function($item) {
+            $item['total_clientes'] = count($item['total_clientes']);
+            return (object) $item;
+        })->sortBy('ciudad')->values();
     }
 }

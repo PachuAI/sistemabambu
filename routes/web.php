@@ -7,6 +7,7 @@ use App\Http\Controllers\CiudadController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RepartoController;
+use App\Http\Controllers\VehiculoController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de autenticación
@@ -33,6 +34,7 @@ Route::resource('ciudades',  CiudadController::class);
 Route::resource('clientes',  ClienteController::class);
 Route::resource('productos', ProductoController::class);
 Route::delete('/productos-multiple', [ProductoController::class, 'deleteMultiple'])->name('productos.deleteMultiple');
+Route::resource('vehiculos', VehiculoController::class);
 
 // Pedidos
 Route::get('/pedidos', [App\Http\Controllers\PedidoController::class, 'index'])->name('pedidos.index');
@@ -44,6 +46,10 @@ Route::delete('/pedidos/{pedido}', [App\Http\Controllers\PedidoController::class
 Route::get('/repartos', [RepartoController::class, 'index'])->name('repartos.index');
 Route::post('/repartos/asignar', [RepartoController::class, 'asignar'])->name('repartos.asignar');
 Route::delete('/repartos/{reparto}/desasignar', [RepartoController::class, 'desasignar'])->name('repartos.desasignar');
+
+// Seguimiento de entregas
+Route::get('/seguimiento-entregas', [App\Http\Controllers\SeguimientoController::class, 'index'])->name('seguimiento.entregas');
+Route::post('/seguimiento-entregas/{reparto}/cambiar-estado', [App\Http\Controllers\SeguimientoController::class, 'cambiarEstado'])->name('seguimiento.cambiar-estado');
 
 // Logs del sistema
 Route::get('/system-logs', [App\Http\Controllers\SystemLogController::class, 'index'])->name('system-logs.index');
