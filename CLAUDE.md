@@ -1,0 +1,217 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+**Sistema BAMBU** is a Laravel-based stock management system for a cleaning chemical products company. It replaces fragmented legacy tools (Enexpro software + Excel spreadsheets) with a unified web application for inventory management, quotations, and delivery logistics.
+
+## Technology Stack
+
+- **Laravel 12** with **PHP 8.2+**
+- **Livewire 3** for reactive components
+- **Filament v3** for admin panel
+- **Laravel Scout** with collection driver for search
+- **Spatie Laravel Permission** for roles
+- **Bootstrap 5** for styling (CDN-based)
+- **MySQL/SQLite** database
+
+## Development Environment Setup
+
+### Windows/Laragon Specific Commands
+
+This project runs in a Windows/Laragon environment. Use these PATH-adjusted commands:
+
+```bash
+# Set PATH for PHP
+export PATH="/c/laragon/bin/php/php-8.3.16-Win32-vs16-x64:$PATH"
+
+# Use full path for Composer
+/c/laragon/bin/composer/composer [command]
+```
+
+### Essential Development Commands
+
+```bash
+# Database operations
+php artisan migrate:fresh --seed    # Complete database reset with test data
+php artisan scout:import "App\Models\Cliente"     # Re-index search
+php artisan scout:import "App\Models\Producto"    # Re-index search
+
+# Clear caches (frequently needed)
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+
+# Development server
+php artisan serve --host=127.0.0.1 --port=8000
+
+# Testing
+composer test    # Runs config:clear + phpunit
+
+# Lint and type checking (if configured)
+# Currently no linting/type checking commands configured
+```
+
+## Application Architecture
+
+### Core Business Entities and Relationships
+
+```
+Ciudad → Cliente (1:N)
+Cliente → Pedido (1:N)
+Pedido → PedidoItem (1:N)
+Producto → PedidoItem (1:N)
+NivelDescuento → Pedido (1:N)
+Producto/Pedido → MovimientoStock (1:N)
+```
+
+### Key Models Features
+
+All models use:
+- **SoftDeletes** for data preservation
+- **Scout Searchable trait** for real-time search
+- Proper **fillable/casts** declarations
+- **Eloquent relationships** with type hints
+
+### Development Approach
+
+**Hybrid Architecture:**
+- **Traditional Laravel controllers + Blade** for CRUD operations
+- **Livewire components** for interactive features (quotation system)
+- **Filament admin panel** for administrative tasks
+
+## Database Schema
+
+### Main Tables
+- `ciudades` - Cities with provinces
+- `clientes` - Clients linked to cities
+- `productos` - Products with SKU, prices, and stock
+- `niveles_descuento` - 4-tier discount configuration
+- `pedidos` - Confirmed orders with status tracking
+- `pedido_items` - Order line items
+- `movimiento_stocks` - Stock movement audit trail
+
+## Search System Implementation
+
+**Laravel Scout with Hybrid Fallback:**
+```php
+// Primary: Scout search
+$productos = Producto::search($term)->get();
+
+// Fallback: Traditional LIKE query if Scout fails
+if ($productos->isEmpty()) {
+    $productos = Producto::where('nombre', 'LIKE', "%{$term}%")
+        ->orWhere('sku', 'LIKE', "%{$term}%")
+        ->get();
+}
+```
+
+## Key Application Features
+
+### Phase 1: CRUD & Search (✅ Complete)
+- Client/Product/City management with full CRUD
+- Scout-powered autocomplete search with fallback
+- Filament admin panel integration
+
+### Phase 2: Quotation System (✅ Complete)
+- **Livewire Cotizador** component at `/cotizador`
+- Real-time client and product search
+- Automated discount calculation based on order volume
+- Stock validation during product selection
+- Formatted quotation summary generation
+
+### Phase 3A: Order Persistence (✅ Complete)
+- Order confirmation with automatic stock deduction
+- Stock movement tracking for audit trail
+- Order listing with status management at `/pedidos`
+- Database transactions for data integrity
+
+### Discount System Logic
+
+4-tier automatic discount system based on order volume:
+- **L1:** 0% (base price)
+- **L2:** 5% (>$X threshold)
+- **L3:** 10% (>$Y threshold)
+- **L4:** 15% (>$Z threshold)
+
+**Important:** Combo products (`es_combo = true`) are excluded from discount calculations but included in final total.
+
+## Stock Management System
+
+### Stock Deduction Flow
+1. User confirms order in cotizador
+2. System validates available stock
+3. Creates order record in transaction
+4. Deducts from `productos.stock_actual`
+5. Records movement in `movimiento_stocks` with negative quantity
+
+### Stock Movement Tracking
+```php
+MovimientoStock::create([
+    'producto_id' => $producto->id,
+    'pedido_id' => $pedido->id,
+    'cantidad' => -$cantidad, // Negative for sales
+    'motivo' => 'venta',
+    'observaciones' => "Pedido #{$pedido->id}"
+]);
+```
+
+## Routes Structure
+
+```
+/ - Dashboard
+/clientes - Client CRUD
+/productos - Product CRUD
+/ciudades - City CRUD
+/cotizador - Livewire quotation system
+/pedidos - Confirmed orders listing
+/pedidos/{id} - Order detail view
+/admin - Filament admin panel
+/api/search/clientes - Client autocomplete API
+/api/search/productos - Product autocomplete API
+```
+
+## Admin Access
+
+- **URL:** `/admin`
+- **User:** admin@bambu.com
+- **Password:** admin123
+
+## Common Development Issues
+
+### Livewire Component Blank Page
+**Solution:** Ensure `@livewireStyles` and `@livewireScripts` are in layout
+
+### Search Not Working
+**Solution:** Re-run scout import or check hybrid search fallback implementation
+
+### Windows Path Issues
+**Solution:** Use full Laragon paths or set PATH as shown above
+
+### Stock Validation Errors
+**Solution:** Check transaction rollback and ensure stock_actual is properly tracked
+
+## Business Requirements Context
+
+The system replaces:
+1. **Enexpro**: Desktop software for Saphirus products (resale)
+2. **Excel Cotizador**: Quotation tool for BAMBU products (manufactured)
+3. **Excel Logistics**: Manual delivery planning sheets
+
+Key business decision: Unified stock control for ALL products (both manufactured and resold).
+
+## Next Development Phases
+
+- **Phase 3B:** Daily logistics planning with vehicle assignment
+- **Phase 3C:** Consolidated city reports with bulk quantities
+- **Phase 4:** Vehicle fleet management
+- **Phase 5:** Advanced reporting and analytics
+
+## Key Files for Understanding Codebase
+
+- `app/Livewire/Cotizador.php` - Main quotation system with order confirmation
+- `app/Models/Pedido.php` - Order model with relationships
+- `database/migrations/*pedidos*.php` - Order system schema
+- `resources/views/livewire/cotizador.blade.php` - Quotation UI
+- `documentacion/00_Requerimientos.md` - Complete business requirements

@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer:*)",
+      "Bash(php:*)",
+      "Bash(C:laragonbincomposercomposer.bat require laravel/scout)",
+      "Bash(ls:*)",
+      "Bash(/c/laragon/bin/composer/composer require laravel/scout)",
+      "Bash(export PATH=\"/c/laragon/bin/php/php-8.3.16-Win32-vs16-x64:$PATH\")",
+      "Bash(/c/laragon/bin/composer/composer require spatie/laravel-permission)",
+      "Bash(/c/laragon/bin/composer/composer require filament/filament)",
+      "Bash(/c/laragon/bin/composer/composer require filament/filament:\"^3.2\" --ignore-platform-req=ext-zip)",
+      "Bash(mkdir:*)",
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "Bash(/c/laragon/bin/composer/composer show)",
+      "Bash(/c/laragon/bin/composer/composer dump-autoload)",
+      "Bash(test:*)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan config:clear)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan cache:clear)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan view:clear)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan tinker --execute=\"Schema::getColumnListing(''productos'')\")",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:migration add_descripcion_to_productos_table --table=productos)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:migration add_email_to_clientes_table --table=clientes)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:seeder ProvinciasSeeder)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan migrate:fresh --seed)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan scout:import \"App\\Models\\Cliente\")",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan scout:import \"App\\Models\\Producto\")",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:migration create_system_logs_table)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:model SystemLog)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:controller SystemLogController)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan migrate)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:auth)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:controller Auth/LoginController)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:migration add_peso_kg_to_productos_table --table=productos)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:model Vehiculo -m)",
+      "WebFetch(domain:localhost)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
