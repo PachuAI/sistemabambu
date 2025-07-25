@@ -36,7 +36,16 @@
       "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan make:model Vehiculo -m)",
       "WebFetch(domain:localhost)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git restore:*)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan livewire:clear)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan optimize:clear)",
+      "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan --version)"
     ],
     "deny": []
   }

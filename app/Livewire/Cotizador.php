@@ -124,9 +124,10 @@ class Cotizador extends Component
             return;
         }
 
-        // Crear item único con ID único para evitar referencias
-        $itemId = 'item_' . $productoId . '_' . microtime(true) . '_' . rand(1000, 9999);
+        // Crear item único con ID único SIN PUNTOS para evitar problemas con Livewire
+        $itemId = 'item_' . $productoId . '_' . str_replace('.', '_', microtime(true)) . '_' . rand(1000, 9999);
         
+        // SOLUCION: Crear item completamente aislado con logging detallado
         $nuevoItem = [
             'id_unico' => $itemId,
             'producto_id' => (int)$producto->id,
@@ -140,8 +141,23 @@ class Cotizador extends Component
             'peso_kg' => (float)($producto->peso_kg ?? 5.0),
         ];
         
-        // Agregar al array
-        $this->items[] = $nuevoItem;
+        \Log::info("Creando item: " . json_encode([
+            'itemId' => $itemId,
+            'producto_id' => $producto->id,
+            'nombre' => $producto->nombre,
+            'id_unico_en_item' => $nuevoItem['id_unico']
+        ]));
+        
+        // SOLUCION RADICAL: Forzar deep clone para evitar referencias compartidas
+        $itemsTemp = json_decode(json_encode($this->items), true);
+        $itemsTemp[$itemId] = json_decode(json_encode($nuevoItem), true);
+        $this->items = $itemsTemp;
+        
+        // DEBUG: Verificar claves y contenido inmediatamente después
+        \Log::info("Claves del array items: " . json_encode(array_keys($this->items)));
+        \Log::info("VERIFICACION INMEDIATA - Items completos: " . json_encode(array_map(function($item) {
+            return ['nombre' => $item['nombre'], 'id_unico' => $item['id_unico']];
+        }, $this->items)));
         
         // Limpiar búsqueda
         $this->searchProducto = '';
@@ -164,32 +180,44 @@ class Cotizador extends Component
     }
 
 
-    public function actualizarCantidad($index, $cantidad)
+    public function actualizarCantidad($id, $cantidad)
     {
         if ($cantidad <= 0) {
-            $this->quitarItem($index);
+            $this->quitarItem($id);
             return;
         }
 
-        if ($cantidad > $this->items[$index]['stock_disponible']) {
+        if ($cantidad > $this->items[$id]['stock_disponible']) {
             session()->flash('error', 'Cantidad solicitada excede el stock disponible');
             return;
         }
 
-        $this->items[$index]['cantidad'] = $cantidad;
-        $this->items[$index]['subtotal'] = $cantidad * $this->items[$index]['precio_base_l1'];
+        $this->items[$id]['cantidad'] = $cantidad;
+        $this->items[$id]['subtotal'] = $cantidad * $this->items[$id]['precio_base_l1'];
         $this->calcularTotales();
     }
 
-    public function quitarItem($index)
+    public function quitarItem($id)
     {
-        unset($this->items[$index]);
-        $this->items = array_values($this->items); // Reindexar array
+        unset($this->items[$id]);
         $this->calcularTotales();
     }
+
+    // SOLUCION: Eliminar updatedItems() que está corrompiendo el array
+    // Este método se dispara automáticamente y está causando el problema
 
     public function calcularTotales()
     {
+        \Log::info("=== CALCULANDO TOTALES ===");
+        \Log::info("Items para calcular: " . json_encode(array_map(function($item) {
+            return [
+                'nombre' => $item['nombre'], 
+                'cantidad' => $item['cantidad'], 
+                'precio_base_l1' => $item['precio_base_l1'],
+                'subtotal' => $item['subtotal']
+            ];
+        }, $this->items)));
+        
         // Calcular monto bruto (excluyendo combos para determinar descuento)
         $montoParaDescuento = 0;
         $montoTotal = 0;
@@ -202,6 +230,8 @@ class Cotizador extends Component
                 $montoParaDescuento += $item['subtotal'];
             }
         }
+        
+        \Log::info("Monto total calculado: $montoTotal");
 
         $this->montoBruto = $montoTotal;
 
@@ -212,9 +242,9 @@ class Cotizador extends Component
 
         $this->porcentajeDescuento = $this->nivelDescuento ? $this->nivelDescuento->porcentaje : 0;
 
-        // Aplicar descuento solo a productos NO combo
+        // Aplicar descuento solo a productos NO combo (SIN REFERENCIA &)
         $descuentoTotal = 0;
-        foreach ($this->items as &$item) {
+        foreach ($this->items as $item) {
             if (!$item['es_combo']) {
                 $descuentoItem = $item['subtotal'] * ($this->porcentajeDescuento / 100);
                 $descuentoTotal += $descuentoItem;

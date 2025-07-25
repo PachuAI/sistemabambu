@@ -113,6 +113,11 @@
                 </div>
             </div>
 
+            <!-- DEBUG: JSON de items -->
+            <pre style="background:#222;color:#0f0;padding:.5rem">
+                {{ json_encode($items, JSON_PRETTY_PRINT) }}
+            </pre>
+
             <!-- Items del Pedido -->
             @if(!empty($items))
                 <div class="card">
@@ -133,8 +138,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($items as $index => $item)
-                                        <tr wire:key="item-{{ $item['id_unico'] }}">
+                                    @foreach($items as $id => $item)
+                                        <tr wire:key="row-{{ $id }}">
                                             <td>
                                                 <div>
                                                     <strong>{{ $item['nombre'] }}</strong>
@@ -143,16 +148,15 @@
                                                     @endif
                                                     <span class="badge bg-primary ms-1">ID: {{ $item['producto_id'] }}</span>
                                                     <br>
-                                                    <small class="text-muted">SKU: {{ $item['sku'] }} • Stock: {{ $item['stock_disponible'] }} • {{ $item['peso_kg'] ?? 5 }}kg • Único: {{ $item['id_unico'] }}</small>
+                                                    <small class="text-muted">SKU: {{ $item['sku'] }} • Stock: {{ $item['stock_disponible'] }} • {{ $item['peso_kg'] ?? 5 }}kg</small>
                                                 </div>
                                             </td>
                                             <td>
                                                 <input type="number" 
                                                        class="form-control form-control-sm"
-                                                       value="{{ $item['cantidad'] }}"
                                                        min="1"
                                                        max="{{ $item['stock_disponible'] }}"
-                                                       wire:change="actualizarCantidad({{ $index }}, $event.target.value)">
+                                                       wire:model.defer="items.{{ $id }}.cantidad">
                                             </td>
                                             <td>
                                                 <span class="badge bg-info">
@@ -168,7 +172,7 @@
                                                 <span class="fw-bold">${{ number_format($item['subtotal'], 2) }}</span>
                                             </td>
                                             <td>
-                                                <button wire:click="quitarItem({{ $index }})" 
+                                                <button wire:click="quitarItem('{{ $id }}')" 
                                                         class="btn btn-outline-danger btn-sm"
                                                         title="Quitar producto">
                                                     <i class="bi bi-trash"></i>
