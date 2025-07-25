@@ -3,11 +3,11 @@
 @section('title', 'Planificación de Repartos')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1><i class="bi bi-truck"></i> Planificación de Repartos</h1>
+<div class="d-flex justify-content-between align-items-center mb-4 bambu-fade-in">
+    <h1 style="color: var(--bambu-primary);"><i class="bi bi-truck me-2"></i>Planificación de Repartos</h1>
     <div class="d-flex gap-2">
         <input type="date" 
-               class="form-control" 
+               class="form-control form-control-bambu" 
                id="fechaSelector"
                value="{{ $fechaSeleccionada }}"
                onchange="cambiarFecha(this.value)">
@@ -62,10 +62,10 @@
 <div class="row">
     <!-- Panel izquierdo: Pedidos disponibles -->
     <div class="col-md-4">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
+        <div class="card card-bambu">
+            <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="bi bi-list-check"></i> 
+                    <i class="bi bi-list-check me-2"></i>
                     Pedidos Disponibles ({{ $pedidosDisponibles->count() }})
                 </h5>
             </div>
@@ -89,7 +89,7 @@
                                     {{ $pedido->items->count() }} productos
                                 </div>
                             </div>
-                            <button class="btn btn-sm btn-outline-success" 
+                            <button class="btn btn-sm btn-bambu-outline" 
                                     onclick="mostrarModalAsignar({{ $pedido->id }}, '{{ $pedido->cliente->nombre }}', {{ $pedido->bultos_totales }})">
                                 <i class="bi bi-plus"></i>
                             </button>
@@ -107,10 +107,10 @@
 
     <!-- Panel central: Vehículos y asignaciones -->
     <div class="col-md-5">
-        <div class="card">
-            <div class="card-header bg-success text-white">
+        <div class="card card-bambu">
+            <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="bi bi-truck"></i> 
+                    <i class="bi bi-truck me-2"></i>
                     Vehículos y Asignaciones
                 </h5>
             </div>
@@ -168,10 +168,10 @@
 
     <!-- Panel derecho: Resumen por ciudad -->
     <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-info text-white">
+        <div class="card card-bambu">
+            <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="bi bi-bar-chart"></i> 
+                    <i class="bi bi-bar-chart me-2"></i>
                     Resumen por Ciudad
                 </h5>
             </div>
@@ -201,25 +201,25 @@
 <!-- Modal para asignar pedido -->
 <div class="modal fade" id="asignarModal" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content modal-content-bambu">
+            <div class="modal-header modal-header-bambu">
                 <h5 class="modal-title">Asignar Pedido al Reparto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('repartos.asignar') }}" method="POST" id="formAsignar">
                 @csrf
-                <div class="modal-body">
+                <div class="modal-body modal-body-bambu">
                     <input type="hidden" name="fecha_reparto" value="{{ $fechaSeleccionada }}">
                     <input type="hidden" name="pedido_id" id="modalPedidoId">
                     
-                    <div class="mb-3">
+                    <div class="mb-3 p-3 rounded" style="background-color: var(--bambu-secondary-light);">
                         <strong>Cliente:</strong> <span id="modalClienteNombre"></span><br>
                         <strong>Bultos:</strong> <span id="modalBultos"></span>
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">Vehículo</label>
-                        <select name="vehiculo_id" class="form-select" required>
+                        <label class="form-label form-label-bambu">Vehículo</label>
+                        <select name="vehiculo_id" class="form-select form-control-bambu" required>
                             <option value="">Seleccionar vehículo...</option>
                             @foreach($vehiculos as $vehiculo)
                                 @php
@@ -233,13 +233,13 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">Orden de entrega</label>
-                        <input type="number" name="orden_entrega" class="form-control" min="1" value="1" required>
+                        <label class="form-label form-label-bambu">Orden de entrega</label>
+                        <input type="number" name="orden_entrega" class="form-control form-control-bambu" min="1" value="1" required>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="btnAsignar">Asignar</button>
+                <div class="modal-footer modal-footer-bambu">
+                    <button type="button" class="btn btn-bambu-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-bambu-primary" id="btnAsignar">Asignar</button>
                 </div>
             </form>
         </div>

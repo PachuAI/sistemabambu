@@ -1,0 +1,471 @@
+/* BAMBU System - Custom Theme */
+/* Paleta de colores: Lavanda, Violeta fuerte, Grises oscuros */
+
+:root {
+  /* Colores principales */
+  --bambu-primary: #8B5CF6;        /* Violeta fuerte */
+  --bambu-primary-dark: #7C3AED;   /* Violeta más oscuro */
+  --bambu-primary-light: #A78BFA;  /* Violeta claro */
+  
+  --bambu-secondary: #C4B5FD;      /* Lavanda */
+  --bambu-secondary-dark: #A78BFA; /* Lavanda oscuro */
+  --bambu-secondary-light: #DDD6FE; /* Lavanda muy claro */
+  
+  /* Grises */
+  --bambu-gray-900: #111827;       /* Gris muy oscuro */
+  --bambu-gray-800: #1F2937;       /* Gris oscuro */
+  --bambu-gray-700: #374151;       /* Gris medio oscuro */
+  --bambu-gray-600: #4B5563;       /* Gris medio */
+  --bambu-gray-500: #6B7280;       /* Gris */
+  --bambu-gray-400: #9CA3AF;       /* Gris claro */
+  --bambu-gray-300: #D1D5DB;       /* Gris muy claro */
+  --bambu-gray-200: #E5E7EB;       /* Gris ultra claro */
+  --bambu-gray-100: #F3F4F6;       /* Gris casi blanco */
+  
+  /* Estados */
+  --bambu-success: #10B981;        /* Verde */
+  --bambu-warning: #F59E0B;        /* Amarillo */
+  --bambu-danger: #EF4444;         /* Rojo */
+  --bambu-info: #3B82F6;           /* Azul */
+  
+  /* Sombras */
+  --bambu-shadow-sm: 0 1px 2px 0 rgba(139, 92, 246, 0.05);
+  --bambu-shadow: 0 1px 3px 0 rgba(139, 92, 246, 0.1), 0 1px 2px 0 rgba(139, 92, 246, 0.06);
+  --bambu-shadow-md: 0 4px 6px -1px rgba(139, 92, 246, 0.1), 0 2px 4px -1px rgba(139, 92, 246, 0.06);
+  --bambu-shadow-lg: 0 10px 15px -3px rgba(139, 92, 246, 0.1), 0 4px 6px -2px rgba(139, 92, 246, 0.05);
+}
+
+/* Personalización de Bootstrap con colores BAMBU */
+.bg-primary {
+  background-color: var(--bambu-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--bambu-primary);
+  border-color: var(--bambu-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--bambu-primary-dark);
+  border-color: var(--bambu-primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--bambu-primary);
+  border-color: var(--bambu-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--bambu-primary);
+  border-color: var(--bambu-primary);
+}
+
+.text-primary {
+  color: var(--bambu-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--bambu-primary) !important;
+}
+
+/* Navegación personalizada */
+.navbar-bambu {
+  background: linear-gradient(135deg, var(--bambu-primary) 0%, var(--bambu-primary-dark) 100%);
+  box-shadow: var(--bambu-shadow-lg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-bambu .navbar-brand {
+  color: white !important;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.navbar-bambu .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem;
+  margin: 0 0.25rem;
+}
+
+.navbar-bambu .nav-link:hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.navbar-bambu .dropdown-menu {
+  background-color: white;
+  border: none;
+  box-shadow: var(--bambu-shadow-lg);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+}
+
+.navbar-bambu .dropdown-item {
+  color: var(--bambu-gray-700);
+  border-radius: 0.5rem;
+  margin: 0.125rem 0;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.navbar-bambu .dropdown-item:hover {
+  background-color: var(--bambu-secondary-light);
+  color: var(--bambu-primary-dark);
+}
+
+/* Tarjetas mejoradas */
+.card-bambu {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: var(--bambu-shadow);
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.card-bambu:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bambu-shadow-lg);
+}
+
+.card-bambu .card-header {
+  background: linear-gradient(135deg, var(--bambu-secondary) 0%, var(--bambu-secondary-dark) 100%);
+  border-bottom: none;
+  border-radius: 1rem 1rem 0 0 !important;
+  padding: 1.25rem 1.5rem;
+  color: var(--bambu-primary-dark);
+  font-weight: 600;
+}
+
+.card-bambu .card-body {
+  padding: 1.5rem;
+}
+
+/* Botones mejorados */
+.btn-bambu-primary {
+  background: linear-gradient(135deg, var(--bambu-primary) 0%, var(--bambu-primary-dark) 100%);
+  border: none;
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--bambu-shadow);
+}
+
+.btn-bambu-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--bambu-shadow-md);
+  background: linear-gradient(135deg, var(--bambu-primary-dark) 0%, #6D28D9 100%);
+}
+
+.btn-bambu-secondary {
+  background: var(--bambu-secondary);
+  border: none;
+  color: var(--bambu-primary-dark);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.btn-bambu-secondary:hover {
+  background: var(--bambu-secondary-dark);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-bambu-outline {
+  background: transparent;
+  border: 2px solid var(--bambu-primary);
+  color: var(--bambu-primary);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.btn-bambu-outline:hover {
+  background: var(--bambu-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Alertas personalizadas */
+.alert-bambu {
+  border: none;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--bambu-primary);
+  background: linear-gradient(135deg, var(--bambu-secondary-light) 0%, rgba(196, 181, 253, 0.3) 100%);
+  color: var(--bambu-gray-800);
+}
+
+/* Formularios mejorados */
+.form-control-bambu {
+  border: 2px solid var(--bambu-gray-300);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--bambu-gray-100);
+}
+
+.form-control-bambu:focus {
+  border-color: var(--bambu-primary);
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
+  background-color: white;
+}
+
+.form-label-bambu {
+  color: var(--bambu-gray-700);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Badges personalizados */
+.badge-bambu-primary {
+  background: var(--bambu-primary);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.badge-bambu-secondary {
+  background: var(--bambu-secondary);
+  color: var(--bambu-primary-dark);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+/* Estados de pedidos/repartos */
+.badge-planificado {
+  background: var(--bambu-gray-500);
+  color: white;
+}
+
+.badge-en-ruta {
+  background: var(--bambu-warning);
+  color: white;
+}
+
+.badge-entregado {
+  background: var(--bambu-success);
+  color: white;
+}
+
+.badge-no-entregado {
+  background: var(--bambu-danger);
+  color: white;
+}
+
+/* Tablas mejoradas */
+.table-bambu {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: var(--bambu-shadow);
+}
+
+.table-bambu thead th {
+  background: var(--bambu-secondary);
+  color: var(--bambu-primary-dark);
+  border: none;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.table-bambu tbody td {
+  padding: 1rem;
+  border-color: var(--bambu-gray-200);
+  vertical-align: middle;
+}
+
+.table-bambu tbody tr:hover {
+  background-color: var(--bambu-secondary-light);
+}
+
+/* Modales mejorados */
+.modal-content-bambu {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: var(--bambu-shadow-lg);
+}
+
+.modal-header-bambu {
+  background: linear-gradient(135deg, var(--bambu-secondary) 0%, var(--bambu-secondary-dark) 100%);
+  color: var(--bambu-primary-dark);
+  border-bottom: none;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.5rem;
+}
+
+.modal-body-bambu {
+  padding: 1.5rem;
+}
+
+.modal-footer-bambu {
+  border-top: 1px solid var(--bambu-gray-200);
+  padding: 1.5rem;
+  border-radius: 0 0 1rem 1rem;
+}
+
+/* Página principal / Dashboard */
+.dashboard-card {
+  background: linear-gradient(135deg, white 0%, var(--bambu-gray-100) 100%);
+  border: 1px solid var(--bambu-gray-200);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--bambu-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-card-fixed {
+  height: 320px; /* Altura reducida ya que los botones son más pequeños */
+  min-height: 320px;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bambu-shadow-md);
+  background: linear-gradient(135deg, rgba(196, 181, 253, 0.15) 0%, rgba(196, 181, 253, 0.25) 100%);
+}
+
+.dashboard-card h3 {
+  color: var(--bambu-primary-dark);
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.dashboard-card i {
+  font-size: 2.5rem; /* Iconos más pequeños */
+  color: var(--bambu-primary);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.dashboard-card p {
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Botones específicos del dashboard */
+.btn-dashboard {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 500;
+  border-radius: 0.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+}
+
+.btn-dashboard i,
+.btn-dashboard .bi {
+  font-size: 0.9rem !important;
+  line-height: 1.2 !important;
+  vertical-align: baseline !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.btn-bambu-primary .bi,
+.btn-bambu-primary i,
+.btn-bambu-primary {
+  color: white !important;
+}
+
+.btn-bambu-primary:hover {
+  background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%) !important;
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+.btn-bambu-primary:hover .bi,
+.btn-bambu-primary:hover i {
+  color: white !important;
+}
+
+/* Contenedor de botones del dashboard */
+.dashboard-card .d-grid {
+  margin-top: auto;
+  gap: 0.5rem !important;
+}
+
+/* Breadcrumbs */
+.breadcrumb-bambu {
+  background: var(--bambu-secondary-light);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.breadcrumb-bambu .breadcrumb-item a {
+  color: var(--bambu-primary);
+  text-decoration: none;
+}
+
+.breadcrumb-bambu .breadcrumb-item.active {
+  color: var(--bambu-gray-700);
+}
+
+/* Animaciones sutiles */
+@keyframes bambu-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bambu-fade-in {
+  animation: bambu-fade-in 0.5s ease-out;
+}
+
+/* Responsive mejoras */
+@media (max-width: 768px) {
+  .card-bambu {
+    margin-bottom: 1rem;
+  }
+  
+  .btn-bambu-primary,
+  .btn-bambu-secondary,
+  .btn-bambu-outline {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Preparación para modo oscuro */
+[data-theme="dark"] {
+  --bambu-bg-primary: var(--bambu-gray-900);
+  --bambu-bg-secondary: var(--bambu-gray-800);
+  --bambu-text-primary: var(--bambu-gray-100);
+  --bambu-text-secondary: var(--bambu-gray-300);
+}
+
+/* Estilos para modo oscuro (preparación futura) */
+[data-theme="dark"] body {
+  background-color: var(--bambu-bg-primary);
+  color: var(--bambu-text-primary);
+}
+
+[data-theme="dark"] .card-bambu {
+  background-color: var(--bambu-bg-secondary);
+  color: var(--bambu-text-primary);
+}
+
+[data-theme="dark"] .navbar-bambu {
+  background: linear-gradient(135deg, var(--bambu-gray-900) 0%, var(--bambu-gray-800) 100%);
+}

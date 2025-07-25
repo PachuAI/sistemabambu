@@ -3,113 +3,131 @@
 @section('title', 'Sistema BAMBU')
 
 @section('content')
-<div class="text-center mb-5">
-    <h1 class="display-4 fw-bold text-success">
-        <i class="bi bi-boxes"></i> Sistema BAMBU
+<div class="text-center mb-5 bambu-fade-in">
+    <h1 class="display-3 fw-bold" style="color: var(--bambu-primary);">
+        <i class="bi bi-boxes me-3"></i>Sistema BAMBU
     </h1>
-    <p class="lead text-muted">Sistema de Gestión Integral para Productos Químicos de Limpieza</p>
-</div>
-
-<div class="row g-4">
-    <div class="col-md-4">
-        <div class="card h-100 border-success">
-            <div class="card-body text-center">
-                <div class="display-1 text-success mb-3">
-                    <i class="bi bi-people"></i>
-                </div>
-                <h5 class="card-title">Gestión de Clientes</h5>
-                <p class="card-text">Administra tu cartera de clientes con información completa y búsqueda rápida.</p>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('clientes.index') }}" class="btn btn-success">
-                        <i class="bi bi-eye"></i> Ver Clientes
-                    </a>
-                    <a href="{{ route('clientes.create') }}" class="btn btn-outline-success">
-                        <i class="bi bi-plus"></i> Nuevo Cliente
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card h-100 border-info">
-            <div class="card-body text-center">
-                <div class="display-1 text-info mb-3">
-                    <i class="bi bi-box-seam"></i>
-                </div>
-                <h5 class="card-title">Control de Productos</h5>
-                <p class="card-text">Gestiona tu inventario con control de stock en tiempo real y precios dinámicos.</p>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('productos.index') }}" class="btn btn-info">
-                        <i class="bi bi-eye"></i> Ver Productos
-                    </a>
-                    <a href="{{ route('productos.create') }}" class="btn btn-outline-info">
-                        <i class="bi bi-plus"></i> Nuevo Producto
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card h-100 border-warning">
-            <div class="card-body text-center">
-                <div class="display-1 text-warning mb-3">
-                    <i class="bi bi-calculator"></i>
-                </div>
-                <h5 class="card-title">Cotizador</h5>
-                <p class="card-text">Crea cotizaciones inteligentes con descuentos automáticos por volumen.</p>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('cotizador') }}" class="btn btn-warning">
-                        <i class="bi bi-calculator"></i> Crear Cotización
-                    </a>
-                </div>
-            </div>
-        </div>
+    <p class="lead" style="color: var(--bambu-gray-600); font-size: 1.3rem;">
+        Sistema de Gestión Integral para Productos Químicos de Limpieza
+    </p>
+    <div class="mt-4">
+        <span class="badge badge-bambu-primary px-3 py-2">
+            <i class="bi bi-shield-check me-1"></i>Río Negro & Neuquén
+        </span>
     </div>
 </div>
 
-<div class="row g-4 mt-4">
-    <div class="col-md-6">
-        <div class="card border-secondary">
-            <div class="card-body text-center">
-                <div class="display-2 text-secondary mb-3">
-                    <i class="bi bi-truck"></i>
-                </div>
-                <h5 class="card-title">Logística de Repartos</h5>
-                <p class="card-text">Organiza y planifica las entregas con control de rutas y vehículos.</p>
-                <button class="btn btn-secondary" disabled>
-                    <i class="bi bi-tools"></i> En Desarrollo
-                </button>
+<div class="row g-4 mb-5">
+    <div class="col-lg-4 col-md-6">
+        <div class="dashboard-card dashboard-card-fixed">
+            <i class="bi bi-people"></i>
+            <h3>Gestión de Clientes</h3>
+            <p class="text-muted">Administra tu cartera de clientes con información completa y búsqueda rápida por toda la región.</p>
+            <div class="d-grid gap-2 mt-auto">
+                <a href="{{ route('clientes.index') }}" class="btn btn-bambu-primary btn-dashboard">
+                    <i class="bi bi-eye me-1"></i>Ver Clientes
+                </a>
+                <a href="{{ route('clientes.create') }}" class="btn btn-bambu-outline btn-dashboard">
+                    <i class="bi bi-plus me-1"></i>Nuevo Cliente
+                </a>
             </div>
         </div>
     </div>
     
-    <div class="col-md-6">
-        <div class="card border-dark">
-            <div class="card-body text-center">
-                <div class="display-2 text-dark mb-3">
-                    <i class="bi bi-gear"></i>
-                </div>
-                <h5 class="card-title">Panel de Administración</h5>
-                <p class="card-text">Accede al panel completo de configuración del sistema.</p>
-                <a href="/admin" target="_blank" class="btn btn-dark">
-                    <i class="bi bi-box-arrow-up-right"></i> Abrir Admin
+    <div class="col-lg-4 col-md-6">
+        <div class="dashboard-card dashboard-card-fixed">
+            <i class="bi bi-box-seam"></i>
+            <h3>Control de Productos</h3>
+            <p class="text-muted">Gestiona tu inventario BAMBU y Saphirus con control de stock en tiempo real y precios dinámicos.</p>
+            <div class="d-grid gap-2 mt-auto">
+                <a href="{{ route('productos.index') }}" class="btn btn-bambu-primary btn-dashboard">
+                    <i class="bi bi-eye me-1"></i>Ver Productos
+                </a>
+                <a href="{{ route('productos.create') }}" class="btn btn-bambu-outline btn-dashboard">
+                    <i class="bi bi-plus me-1"></i>Nuevo Producto
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+        <div class="dashboard-card dashboard-card-fixed">
+            <i class="bi bi-truck"></i>
+            <h3>Logística de Repartos</h3>
+            <p class="text-muted">Planifica entregas con control de vehículos, rutas optimizadas y seguimiento en tiempo real.</p>
+            <div class="d-grid gap-2 mt-auto">
+                <a href="{{ route('repartos.index') }}" class="btn btn-bambu-primary btn-dashboard">
+                    <i class="bi bi-calendar-check me-1"></i>Planificar Repartos
+                </a>
+                <a href="{{ route('seguimiento.entregas') }}" class="btn btn-bambu-outline btn-dashboard">
+                    <i class="bi bi-geo-alt me-1"></i>Seguimiento
                 </a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="alert alert-info mt-5">
-    <h6><i class="bi bi-info-circle"></i> Estado del Proyecto</h6>
-    <div class="progress mb-2">
-        <div class="progress-bar bg-success" style="width: 65%"></div>
+<div class="row g-4 mb-5">
+    <div class="col-lg-4 col-md-6">
+        <div class="dashboard-card dashboard-card-fixed">
+            <i class="bi bi-calculator"></i>
+            <h3>Cotizador Inteligente</h3>
+            <p class="text-muted">Crea cotizaciones inteligentes con descuentos automáticos por volumen y validación de stock.</p>
+            <div class="d-grid gap-2 mt-auto">
+                <a href="{{ route('cotizador') }}" class="btn btn-bambu-primary btn-dashboard">
+                    <i class="bi bi-calculator me-1"></i>Crear Cotización
+                </a>
+                <div></div> <!-- Espaciador para mantener altura uniforme -->
+            </div>
+        </div>
     </div>
-    <small>
-        <strong>Fase 1 Completada:</strong> Sistema base con CRUD de clientes y productos, búsqueda integrada y panel de administración funcional.
-        <br><strong>Fase 2 Completada:</strong> Cotizador Livewire con búsqueda en tiempo real, descuentos automáticos y generación de resúmenes.
-        <br><strong>Próximo:</strong> Sistema de logística y repartos.
-    </small>
+    
+    <div class="col-lg-4 col-md-6">
+        <div class="dashboard-card dashboard-card-fixed">
+            <i class="bi bi-receipt"></i>
+            <h3>Control de Pedidos</h3>
+            <p class="text-muted">Gestiona pedidos confirmados con seguimiento de estado y movimientos de stock.</p>
+            <div class="d-grid gap-2 mt-auto">
+                <a href="{{ route('pedidos.index') }}" class="btn btn-bambu-primary btn-dashboard">
+                    <i class="bi bi-receipt me-1"></i>Ver Pedidos
+                </a>
+                <div></div> <!-- Espaciador para mantener altura uniforme -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+        <div class="dashboard-card dashboard-card-fixed">
+            <i class="bi bi-gear"></i>
+            <h3>Administración</h3>
+            <p class="text-muted">Accede al panel completo de configuración del sistema y gestión avanzada.</p>
+            <div class="d-grid gap-2 mt-auto">
+                <a href="/admin" target="_blank" class="btn btn-bambu-secondary btn-dashboard">
+                    <i class="bi bi-box-arrow-up-right me-1"></i>Panel Admin
+                </a>
+                <div></div> <!-- Espaciador para mantener altura uniforme -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert-bambu">
+    <h6><i class="bi bi-info-circle-fill me-2"></i>Estado del Sistema</h6>
+    <div class="progress mb-3" style="height: 8px; background-color: var(--bambu-gray-200);">
+        <div class="progress-bar" style="width: 95%; background: linear-gradient(135deg, var(--bambu-primary) 0%, var(--bambu-primary-dark) 100%);">
+        </div>
+    </div>
+    <div class="small">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>✅ Fase 1 Completada:</strong> CRUD completo de clientes, productos y ciudades con búsqueda integrada
+                <br><strong>✅ Fase 2 Completada:</strong> Cotizador inteligente con descuentos automáticos por volumen
+            </div>
+            <div class="col-md-6">
+                <strong>✅ Fase 3A Completada:</strong> Sistema completo de logística y repartos con seguimiento
+                <br><strong>🎯 Sistema Operativo:</strong> Listo para producción con datos reales de Río Negro y Neuquén
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
