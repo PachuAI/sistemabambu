@@ -60,11 +60,18 @@ class Cotizador extends Component
             return;
         }
 
-        $this->clientesEncontrados = Cliente::search($this->searchCliente)
-            ->take(10)
-            ->get()
-            ->toArray();
+        // Búsqueda tradicional con LIKE
+        $searchTerm = '%' . $this->searchCliente . '%';
+        $clientes = Cliente::where(function($query) use ($searchTerm) {
+            $query->where('nombre', 'LIKE', $searchTerm)
+                  ->orWhere('direccion', 'LIKE', $searchTerm)
+                  ->orWhere('telefono', 'LIKE', $searchTerm);
+        })
+        ->with('ciudad')
+        ->take(10)
+        ->get();
         
+        $this->clientesEncontrados = $clientes->toArray();
         $this->mostrarClientesDropdown = count($this->clientesEncontrados) > 0;
     }
 
@@ -82,6 +89,7 @@ class Cotizador extends Component
         $this->mostrarClientesDropdown = false;
     }
 
+
     // Búsqueda en tiempo real de productos
     public function updatedSearchProducto()
     {
@@ -93,22 +101,20 @@ class Cotizador extends Component
             return;
         }
 
-        // Usar búsqueda tradicional más confiable
+        // Usar directamente búsqueda tradicional que sabemos que funciona
+        $searchTerm = '%' . $this->searchProducto . '%';
         $productos = Producto::where('stock_actual', '>', 0)
-            ->where(function($query) {
-                $searchTerm = '%' . $this->searchProducto . '%';
+            ->where(function($query) use ($searchTerm) {
                 $query->where('nombre', 'LIKE', $searchTerm)
                       ->orWhere('sku', 'LIKE', $searchTerm);
             })
             ->orderBy('nombre')
             ->take(10)
             ->get();
-
-        // Debug: Log de productos encontrados
-
+            
         $this->productosEncontrados = $productos;
-        $this->mostrarProductosDropdown = $productos->count() > 0;
-        $this->hashBusqueda = md5($this->searchProducto . time());
+
+        $this->mostrarProductosDropdown = $this->productosEncontrados->count() > 0;
     }
 
     public function agregarProductoSimple($productoId)

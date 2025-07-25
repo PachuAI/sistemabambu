@@ -13,17 +13,36 @@ class CiudadSeeder extends Seeder
      */
     public function run(): void
     {
+        // Ciudades principales de Río Negro y Neuquén para BAMBU
         $ciudades = [
+            // Río Negro
+            'San Carlos de Bariloche',
+            'Viedma',
+            'General Roca',
+            'Cipolletti',
+            'Villa Regina',
+            'Choele Choel',
+            'Allen',
+            'Catriel',
+            'El Bolsón',
+            'Cinco Saltos',
+            
+            // Neuquén
+            'Neuquén',
+            'Zapala',
+            'Cutral Có',
+            'Plaza Huincul',
+            'Centenario',
+            'San Martín de los Andes',
+            'Villa La Angostura',
+            'Chos Malal',
+            'Junín de los Andes',
+            'Plottier',
+            
+            // Otras ciudades para referencia
             'Buenos Aires',
-            'Córdoba', 
-            'Rosario',
+            'Córdoba',
             'Mendoza',
-            'La Plata',
-            'San Miguel de Tucumán',
-            'Mar del Plata',
-            'Salta',
-            'Santa Fe',
-            'San Juan',
         ];
 
         foreach ($ciudades as $ciudad) {

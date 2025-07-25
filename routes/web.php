@@ -63,6 +63,7 @@ Route::get('/cotizador', function () {
 // Test Livewire
 Route::get('/test-livewire', \App\Livewire\TestComponent::class)->name('test-livewire');
 
+
 // Cotizador tradicional para testing
 Route::get('/cotizador-tradicional', [App\Http\Controllers\CotizadorController::class, 'index'])->name('cotizador.tradicional');
 

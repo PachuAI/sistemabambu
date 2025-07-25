@@ -31,7 +31,8 @@
                                @if($clienteSeleccionado) readonly @endif>
                         
                         @if($mostrarClientesDropdown)
-                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1055 !important;">
+                            <div class="dropdown-menu show w-100 position-relative" 
+                                 style="z-index: 1055; margin-top: 2px; max-height: 300px; overflow-y: auto; box-shadow: var(--bambu-shadow-lg);">
                                 @foreach($clientesEncontrados as $cliente)
                                     <button type="button" 
                                             class="dropdown-item"
@@ -86,7 +87,7 @@
                                autocomplete="off">
                         
                         @if($mostrarProductosDropdown)
-                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1050 !important;">
+                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1050 !important; top: 100%; left: 0; margin-top: 2px;">
                                 @foreach($productosEncontrados as $index => $producto)
                                     <button type="button" 
                                             class="dropdown-item"
