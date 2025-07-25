@@ -71,25 +71,55 @@
             </div>
             <div class="card-body p-0" style="max-height: 600px; overflow-y: auto;">
                 @forelse($pedidosDisponibles as $pedido)
-                    <div class="border-bottom p-3" data-pedido-id="{{ $pedido->id }}">
-                        <div class="d-flex justify-content-between align-items-start">
+                    <div class="pedido-card" data-pedido-id="{{ $pedido->id }}">
+                        <div class="pedido-header">
                             <div class="flex-grow-1">
-                                <h6 class="mb-1">
-                                    <strong>{{ $pedido->cliente->nombre }}</strong>
-                                    <small class="text-muted">#{{ $pedido->id }}</small>
-                                </h6>
-                                <div class="small text-muted mb-2">
-                                    <i class="bi bi-geo-alt"></i> {{ $pedido->cliente->ciudad->nombre }}
-                                    <br>
-                                    <i class="bi bi-box"></i> {{ $pedido->bultos_totales }} bultos
-                                    <br>
-                                    <i class="bi bi-currency-dollar"></i> ${{ number_format($pedido->monto_final, 0) }}
+                                <div class="pedido-cliente">
+                                    {{ $pedido->cliente->nombre }}
+                                    <span class="pedido-id">#{{ $pedido->id }}</span>
                                 </div>
-                                <div class="small">
-                                    {{ $pedido->items->count() }} productos
+                                
+                                <div class="pedido-ciudad">
+                                    <i class="bi bi-geo-alt"></i>
+                                    {{ $pedido->cliente->ciudad->nombre }}
                                 </div>
+                                
+                                <!-- Badges alineados a la derecha -->
+                                <div class="pedido-badges-container">
+                                    <div class="pedido-badges">
+                                        <div class="pedido-bultos">
+                                            <i class="bi bi-box"></i>
+                                            {{ $pedido->bultos_totales }} bultos
+                                        </div>
+                                        <div class="pedido-monto">
+                                            ${{ number_format($pedido->monto_final, 0) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Segunda línea: Dirección completa -->
+                                @if($pedido->cliente->direccion)
+                                <div class="pedido-direccion">
+                                    <i class="bi bi-house me-1"></i>{{ $pedido->cliente->direccion }}
+                                </div>
+                                @endif
+                                
+                                <!-- Tercera línea: Solo Productos -->
+                                <div class="pedido-resumen">
+                                    <div class="pedido-productos">
+                                        {{ $pedido->bultos_totales }} bultos repartidos entre {{ $pedido->items->count() }} productos
+                                    </div>
+                                </div>
+                                
+                                <!-- Botón mobile completo -->
+                                <button class="btn btn-asignar-mobile" 
+                                        onclick="mostrarModalAsignar({{ $pedido->id }}, '{{ $pedido->cliente->nombre }}', {{ $pedido->bultos_totales }})">
+                                    <i class="bi bi-plus-circle me-2"></i>Asignar Pedido
+                                </button>
                             </div>
-                            <button class="btn btn-sm btn-bambu-outline" 
+                            
+                            <!-- Botón desktop pequeño -->
+                            <button class="btn btn-bambu-outline btn-asignar-pedido ms-2" 
                                     onclick="mostrarModalAsignar({{ $pedido->id }}, '{{ $pedido->cliente->nombre }}', {{ $pedido->bultos_totales }})">
                                 <i class="bi bi-plus"></i>
                             </button>
