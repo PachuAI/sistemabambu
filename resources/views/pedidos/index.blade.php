@@ -94,6 +94,15 @@
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         @endif
+                                        <form action="{{ route('pedidos.destroy', $pedido) }}" method="POST" 
+                                              style="display: inline-block" 
+                                              onsubmit="return confirm('¿Está seguro de eliminar este pedido? Se devolverá automáticamente el stock.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Eliminar pedido">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

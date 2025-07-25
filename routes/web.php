@@ -37,6 +37,7 @@ Route::resource('productos', ProductoController::class);
 Route::get('/pedidos', [App\Http\Controllers\PedidoController::class, 'index'])->name('pedidos.index');
 Route::get('/pedidos/{pedido}', [App\Http\Controllers\PedidoController::class, 'show'])->name('pedidos.show');
 Route::put('/pedidos/{pedido}', [App\Http\Controllers\PedidoController::class, 'update'])->name('pedidos.update');
+Route::delete('/pedidos/{pedido}', [App\Http\Controllers\PedidoController::class, 'destroy'])->name('pedidos.destroy');
 
 // Repartos
 Route::get('/repartos', [RepartoController::class, 'index'])->name('repartos.index');

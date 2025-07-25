@@ -77,7 +77,11 @@
                 </table>
             </div>
             
-            {{ $ciudades->links() }}
+            <div class="d-flex justify-content-center align-items-center mt-3">
+                <div class="text-center">
+                    {{ $ciudades->links() }}
+                </div>
+            </div>
         @else
             <div class="text-center py-4">
                 <i class="bi bi-geo-alt display-1 text-muted"></i>

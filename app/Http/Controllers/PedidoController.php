@@ -143,4 +143,48 @@ class PedidoController extends Controller
             return redirect()->back()->with('error', 'Error al actualizar pedido: ' . $e->getMessage());
         }
     }
+
+    public function destroy(Pedido $pedido)
+    {
+        try {
+            DB::transaction(function () use ($pedido) {
+                // Devolver stock de todos los items del pedido
+                foreach ($pedido->items as $item) {
+                    $producto = $item->producto;
+                    $producto->increment('stock_actual', $item->cantidad);
+                    
+                    // Registrar movimiento de stock
+                    MovimientoStock::create([
+                        'producto_id' => $producto->id,
+                        'pedido_id' => $pedido->id,
+                        'cantidad' => $item->cantidad,
+                        'motivo' => 'cancelacion_pedido',
+                        'observaciones' => "Pedido #{$pedido->id} eliminado - devuelto stock de {$producto->nombre}",
+                    ]);
+                }
+
+                // Log del cambio
+                SystemLog::log(
+                    Auth::user()->name,
+                    "Pedido #{$pedido->id} eliminado",
+                    'pedidos',
+                    [
+                        'pedido_id' => $pedido->id,
+                        'cliente' => $pedido->cliente->nombre,
+                        'monto_final' => $pedido->monto_final,
+                        'items_count' => $pedido->items->count(),
+                    ]
+                );
+
+                // Eliminar pedido (soft delete)
+                $pedido->delete();
+            });
+
+            return redirect()->route('pedidos.index')
+                ->with('success', "Pedido #{$pedido->id} eliminado exitosamente. Stock devuelto automáticamente.");
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al eliminar pedido: ' . $e->getMessage());
+        }
+    }
 }

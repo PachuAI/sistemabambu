@@ -42,15 +42,18 @@ php artisan scout:import "App\Models\Producto"    # Re-index search
 php artisan config:clear
 php artisan cache:clear
 php artisan view:clear
+php artisan optimize:clear          # Clear all optimization caches
 
 # Development server
 php artisan serve --host=127.0.0.1 --port=8000
+composer dev                        # Runs server + queue + logs + vite concurrently
 
 # Testing
-composer test    # Runs config:clear + phpunit
+composer test                       # Runs config:clear + phpunit
+php artisan test                    # Direct test execution
 
-# Lint and type checking (if configured)
-# Currently no linting/type checking commands configured
+# Code quality
+vendor/bin/pint                     # Laravel Pint code formatting
 ```
 
 ## Application Architecture
@@ -178,7 +181,33 @@ MovimientoStock::create([
 - **User:** admin@bambu.com
 - **Password:** admin123
 
-## Common Development Issues
+## Critical Development Lessons Learned
+
+### Livewire Array References Bug
+**Issue:** Using `&$item` references in foreach loops corrupts Livewire component state
+**Symptoms:** Array elements get overwritten with first element's data after subsequent renders
+**Solution:** Never use PHP references (`&`) in Livewire component properties
+```php
+// ❌ Wrong - causes array corruption
+foreach ($this->items as &$item) { ... }
+
+// ✅ Correct - use array key access
+foreach ($this->items as $key => $item) {
+    $this->items[$key]['field'] = $newValue;
+}
+```
+
+### Livewire Array Keys
+**Issue:** Wire:key conflicts with array reconciliation in Livewire
+**Solution:** Use associative arrays with unique string keys instead of numeric indices
+```php
+// ❌ Wrong - numeric keys cause DOM reuse issues
+$this->items[] = $newItem;
+
+// ✅ Correct - associative keys with unique identifiers
+$itemId = 'item_' . $productId . '_' . str_replace('.', '_', microtime(true));
+$this->items[$itemId] = $newItem;
+```
 
 ### Livewire Component Blank Page
 **Solution:** Ensure `@livewireStyles` and `@livewireScripts` are in layout
@@ -188,9 +217,6 @@ MovimientoStock::create([
 
 ### Windows Path Issues
 **Solution:** Use full Laragon paths or set PATH as shown above
-
-### Stock Validation Errors
-**Solution:** Check transaction rollback and ensure stock_actual is properly tracked
 
 ## Business Requirements Context
 

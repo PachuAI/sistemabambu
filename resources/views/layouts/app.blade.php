@@ -7,6 +7,24 @@
     <title>@yield('title', 'Sistema BAMBU')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para paginación */
+        .pagination .page-link {
+            padding: 0.25rem 0.5rem !important;
+            font-size: 0.75rem !important;
+            line-height: 1.2 !important;
+            min-width: 2rem !important;
+            min-height: 2rem !important;
+        }
+        .pagination .page-item:first-child .page-link,
+        .pagination .page-item:last-child .page-link {
+            padding: 0.25rem 0.4rem !important;
+            font-size: 0.8rem !important;
+        }
+        .pagination {
+            margin-bottom: 0 !important;
+        }
+    </style>
     @livewireStyles
     @stack('styles')
 </head>
