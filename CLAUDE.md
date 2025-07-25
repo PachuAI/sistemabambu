@@ -136,10 +136,11 @@ if ($productos->isEmpty()) {
 
 ### Phase 3B: Logistics and Delivery Management (✅ Complete)
 - **Vehicle Fleet Management** - Full CRUD for vehicles with capacity control
-- **Daily Route Planning** - Visual dashboard for assigning orders to vehicles
-- **Delivery Assignment System** - Drag-and-drop interface for route optimization
-- **Real-time Delivery Tracking** - Live status updates with Livewire components
+- **Daily Route Planning** - Visual dashboard with weekly calendar navigation
+- **Smart Delivery Assignment** - Modal-based system with capacity validation
+- **Real-time Delivery Tracking** - Status management (planificado → en_ruta → entregado)
 - **City-based Logistics Summary** - Consolidated reports for strategic planning
+- **UX Improvements** - Double-click prevention, modal state reset, organized navigation
 
 ### Discount System Logic
 
@@ -211,20 +212,55 @@ foreach ($this->items as $key => $item) {
 }
 ```
 
-### Livewire Array Keys
-**Issue:** Wire:key conflicts with array reconciliation in Livewire
-**Solution:** Use associative arrays with unique string keys instead of numeric indices
+### Livewire Component Stability Issues
+**Issue:** Complex Livewire components with multiple root elements cause blank pages
+**Symptoms:** White screen, multiple root element detection errors
+**Solution:** Use traditional Laravel controllers for complex interactions
 ```php
-// ❌ Wrong - numeric keys cause DOM reuse issues
-$this->items[] = $newItem;
+// ❌ Problematic - Complex Livewire with multiple states
+class ComplexLivewireComponent extends Component { ... }
 
-// ✅ Correct - associative keys with unique identifiers
-$itemId = 'item_' . $productId . '_' . str_replace('.', '_', microtime(true));
-$this->items[$itemId] = $newItem;
+// ✅ Stable - Traditional controller approach
+class TraditionalController extends Controller { ... }
 ```
 
-### Livewire Component Blank Page
-**Solution:** Ensure `@livewireStyles` and `@livewireScripts` are in layout
+### Modal State Management
+**Issue:** JavaScript modals remember previous state between openings
+**Symptoms:** Disabled options persist, incorrect validation states
+**Solution:** Reset modal state completely on each opening
+```javascript
+// ✅ Reset modal state before showing
+function showModal() {
+    // Clear previous selections and states
+    select.value = '';
+    options.forEach(option => {
+        option.disabled = false;
+        option.textContent = originalText;
+    });
+}
+```
+
+### Database Constraint Violations
+**Issue:** Unique constraints violated by double-click submissions
+**Solution:** Implement client-side form submission prevention
+```javascript
+// ✅ Prevent double submissions
+form.addEventListener('submit', function(e) {
+    button.disabled = true;
+    setTimeout(() => button.disabled = false, 3000);
+});
+```
+
+### SQL Query Ambiguity with JOINs
+**Issue:** Column name ambiguity in complex JOIN queries
+**Solution:** Always specify table prefixes in WHERE clauses
+```php
+// ❌ Ambiguous - causes SQL errors
+->where('fecha_reparto', $fecha)
+
+// ✅ Explicit - works with JOINs
+->where('repartos.fecha_reparto', $fecha)
+```
 
 ### Search Not Working
 **Solution:** Re-run scout import or check hybrid search fallback implementation
@@ -250,17 +286,18 @@ Key business decision: Unified stock control for ALL products (both manufactured
 - Real-time availability calculation
 
 ### Delivery Planning Features
-- Weekly calendar view with day-by-day planning
-- Visual capacity indicators for each vehicle
-- Order assignment with capacity validation
-- Drag-and-drop interface for easy planning
-- City-based delivery consolidation reports
+- **Weekly Calendar Navigation** - Dynamic week view with delivery counters
+- **Visual Capacity Indicators** - Progress bars showing vehicle utilization
+- **Smart Order Assignment** - Modal with real-time capacity validation
+- **Double-click Prevention** - Form protection against duplicate submissions
+- **City-based Consolidation** - Strategic planning reports by geographic area
 
 ### Delivery Tracking Features
-- Real-time status updates (planificado → en_ruta → entregado/no_entregado)
-- Live statistics dashboard with delivery effectiveness
-- Vehicle-specific filtering and tracking
-- Livewire-powered instant updates without page refresh
+- **Status Flow Management** - planificado → en_ruta → entregado/no_entregado
+- **Real-time Statistics** - Dashboard with delivery effectiveness metrics
+- **Vehicle-specific Filtering** - Track deliveries by vehicle and date
+- **Traditional Controller Architecture** - Stable, non-Livewire implementation
+- **Modal State Reset** - Clean user experience without memory of previous actions
 
 ## Next Development Phases
 
