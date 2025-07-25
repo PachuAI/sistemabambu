@@ -1,13 +1,13 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1><i class="bi bi-calculator"></i> Cotizador BAMBU</h1>
+        <h1 style="color: var(--bambu-primary);"><i class="bi bi-calculator"></i> Cotizador BAMBU</h1>
         <div>
             @if(!empty($items))
-                <button wire:click="limpiarCotizacion" class="btn btn-outline-secondary me-2">
+                <button wire:click="limpiarCotizacion" class="btn btn-bambu-outline me-2">
                     <i class="bi bi-arrow-clockwise"></i> Limpiar
                 </button>
             @endif
-            <a href="{{ url('/') }}" class="btn btn-outline-secondary">
+            <a href="{{ url('/') }}" class="btn btn-bambu-outline">
                 <i class="bi bi-house"></i> Inicio
             </a>
         </div>
@@ -17,21 +17,21 @@
         <!-- Panel Izquierdo: Búsquedas y Formulario -->
         <div class="col-md-8">
             <!-- Búsqueda de Cliente -->
-            <div class="card mb-4">
-                <div class="card-header bg-success text-white">
+            <div class="card card-bambu mb-4">
+                <div class="card-header">
                     <h5 class="mb-0"><i class="bi bi-person-search"></i> Seleccionar Cliente</h5>
                 </div>
                 <div class="card-body">
-                    <div class="position-relative">
+                    <div class="position-relative" style="z-index: 1052;">
                         <input type="text" 
-                               class="form-control form-control-lg @if($clienteSeleccionado) bg-light @endif"
+                               class="form-control form-control-bambu form-control-lg @if($clienteSeleccionado) bg-light @endif"
                                wire:model.live.debounce.300ms="searchCliente"
                                placeholder="Buscar cliente por nombre, dirección o teléfono..."
                                autocomplete="off"
                                @if($clienteSeleccionado) readonly @endif>
                         
                         @if($mostrarClientesDropdown)
-                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1000;">
+                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1055 !important;">
                                 @foreach($clientesEncontrados as $cliente)
                                     <button type="button" 
                                             class="dropdown-item"
@@ -53,7 +53,7 @@
                                 <div>
                                     <h6><i class="bi bi-check-circle text-success"></i> Cliente Seleccionado:</h6>
                                 </div>
-                                <button wire:click="limpiarCliente" class="btn btn-outline-secondary btn-sm">
+                                <button wire:click="limpiarCliente" class="btn btn-bambu-outline btn-sm">
                                     <i class="bi bi-pencil"></i> Cambiar
                                 </button>
                             </div>
@@ -63,7 +63,7 @@
                                     <small>{{ $clienteSeleccionado->direccion }}</small>
                                 </div>
                                 <div class="col-md-6 text-md-end">
-                                    <span class="badge bg-info">{{ $clienteSeleccionado->ciudad->nombre }}</span><br>
+                                    <span class="badge badge-bambu-primary">{{ $clienteSeleccionado->ciudad->nombre }}</span><br>
                                     <small>{{ $clienteSeleccionado->telefono }}</small>
                                 </div>
                             </div>
@@ -73,20 +73,20 @@
             </div>
 
             <!-- Búsqueda de Productos -->
-            <div class="card mb-4">
-                <div class="card-header bg-info text-white">
+            <div class="card card-bambu mb-4">
+                <div class="card-header">
                     <h5 class="mb-0"><i class="bi bi-search"></i> Agregar Productos</h5>
                 </div>
                 <div class="card-body">
-                    <div class="position-relative">
+                    <div class="position-relative" style="z-index: 1051;">
                         <input type="text" 
-                               class="form-control form-control-lg"
+                               class="form-control form-control-bambu form-control-lg"
                                wire:model.live.debounce.300ms="searchProducto"
                                placeholder="Buscar productos por nombre o SKU..."
                                autocomplete="off">
                         
                         @if($mostrarProductosDropdown)
-                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1000;">
+                            <div class="dropdown-menu show w-100 position-absolute" style="z-index: 1050 !important;">
                                 @foreach($productosEncontrados as $index => $producto)
                                     <button type="button" 
                                             class="dropdown-item"
@@ -100,7 +100,7 @@
                                                 <small class="text-muted">SKU: {{ $producto->sku }} • ID: {{ $producto->id }}</small>
                                             </div>
                                             <div class="text-end">
-                                                <span class="badge bg-success">${{ number_format($producto->precio_base_l1, 2) }}</span>
+                                                <span class="badge badge-bambu-primary">${{ number_format($producto->precio_base_l1, 2) }}</span>
                                                 <br>
                                                 <small class="text-muted">Stock: {{ $producto->stock_actual }}</small>
                                             </div>
@@ -116,14 +116,14 @@
 
             <!-- Items del Pedido -->
             @if(!empty($items))
-                <div class="card">
-                    <div class="card-header bg-warning text-dark">
+                <div class="card card-bambu">
+                    <div class="card-header">
                         <h5 class="mb-0"><i class="bi bi-cart"></i> Productos en el Pedido</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-light">
+                            <table class="table table-bambu table-hover mb-0">
+                                <thead>
                                     <tr>
                                         <th>Producto</th>
                                         <th width="100">Cantidad</th>
@@ -140,37 +140,38 @@
                                                 <div>
                                                     <strong>{{ $item['nombre'] }}</strong>
                                                     @if($item['es_combo'])
-                                                        <span class="badge bg-warning ms-1">Combo</span>
+                                                        <span class="badge badge-bambu-secondary ms-1">Combo</span>
                                                     @endif
-                                                    <span class="badge bg-primary ms-1">ID: {{ $item['producto_id'] }}</span>
+                                                    <span class="badge badge-bambu-primary ms-1">ID: {{ $item['producto_id'] }}</span>
                                                     <br>
                                                     <small class="text-muted">SKU: {{ $item['sku'] }} • Stock: {{ $item['stock_disponible'] }} • {{ $item['peso_kg'] ?? 5 }}kg</small>
                                                 </div>
                                             </td>
                                             <td>
                                                 <input type="number" 
-                                                       class="form-control form-control-sm"
+                                                       class="form-control form-control-bambu form-control-sm"
                                                        min="1"
                                                        max="{{ $item['stock_disponible'] }}"
                                                        wire:model.live="items.{{ $id }}.cantidad">
                                             </td>
                                             <td>
-                                                <span class="badge bg-info">
+                                                <span class="badge badge-bambu-primary">
                                                     {{ round(($item['cantidad'] * ($item['peso_kg'] ?? 5)) / 5, 2) }}
                                                 </span>
                                                 <br>
                                                 <small class="text-muted">bultos</small>
                                             </td>
                                             <td>
-                                                <span class="fw-bold text-success">${{ number_format($item['precio_base_l1'], 2) }}</span>
+                                                <span class="fw-bold" style="color: var(--bambu-primary);">${{ number_format($item['precio_base_l1'], 2) }}</span>
                                             </td>
                                             <td>
-                                                <span class="fw-bold">${{ number_format($item['subtotal'], 2) }}</span>
+                                                <span class="fw-bold" style="color: var(--bambu-primary-dark);">${{ number_format($item['subtotal'], 2) }}</span>
                                             </td>
                                             <td>
                                                 <button wire:click="quitarItem('{{ $id }}')" 
                                                         class="btn btn-outline-danger btn-sm"
-                                                        title="Quitar producto">
+                                                        title="Quitar producto"
+                                                        style="border-color: var(--bambu-danger); color: var(--bambu-danger);">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </td>
@@ -187,8 +188,8 @@
         <!-- Panel Derecho: Totales y Resumen -->
         <div class="col-md-4">
             <!-- Totales -->
-            <div class="card mb-4 sticky-top" style="top: 20px;">
-                <div class="card-header bg-dark text-white">
+            <div class="card card-bambu mb-4 sticky-top" style="top: 20px;">
+                <div class="card-header">
                     <h5 class="mb-0"><i class="bi bi-calculator"></i> Totales</h5>
                 </div>
                 <div class="card-body">
@@ -271,12 +272,12 @@
     @if($mostrarResumen)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-success text-white">
+                <div class="modal-content modal-content-bambu">
+                    <div class="modal-header modal-header-bambu">
                         <h5 class="modal-title"><i class="bi bi-file-text"></i> Resumen de Cotización</h5>
                         <button type="button" class="btn-close btn-close-white" wire:click="$set('mostrarResumen', false)"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body modal-body-bambu">
                         <div class="bg-light p-3 rounded">
                             <pre class="mb-0" style="white-space: pre-wrap; font-family: monospace;">{{ $resumenTexto }}</pre>
                         </div>
@@ -288,11 +289,11 @@
                             </small>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="$set('mostrarResumen', false)">
+                    <div class="modal-footer modal-footer-bambu">
+                        <button type="button" class="btn btn-bambu-secondary" wire:click="$set('mostrarResumen', false)">
                             Cerrar
                         </button>
-                        <button type="button" class="btn btn-success" onclick="copyToClipboard()">
+                        <button type="button" class="btn btn-bambu-primary" onclick="copyToClipboard()">
                             <i class="bi bi-clipboard"></i> Copiar Texto
                         </button>
                     </div>
@@ -304,12 +305,24 @@
     <!-- Loading overlay -->
     <div wire:loading wire:target="searchCliente,searchProducto,agregarProducto,actualizarCantidad,quitarItem,generarResumen">
         <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" 
-             style="background-color: rgba(0,0,0,0.3); z-index: 9999;">
-            <div class="spinner-border text-success" role="status">
+             style="background-color: rgba(0,0,0,0.5); z-index: 99999;">
+            <div class="spinner-border" style="color: var(--bambu-primary);" role="status">
                 <span class="visually-hidden">Cargando...</span>
             </div>
         </div>
     </div>
+
+    <style>
+    /* Simple solution: Lower z-index for dropdowns when loading */
+    .dropdown-menu.show {
+        z-index: 1000;
+    }
+    
+    /* Loading overlay covers everything */
+    div[wire\:loading] {
+        z-index: 99999 !important;
+    }
+    </style>
 </div>
 
 @push('styles')

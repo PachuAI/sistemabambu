@@ -121,7 +121,7 @@
 /* Tarjetas mejoradas */
 .card-bambu {
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   box-shadow: var(--bambu-shadow);
   transition: all 0.3s ease;
   background: white;
@@ -135,7 +135,7 @@
 .card-bambu .card-header {
   background: linear-gradient(135deg, var(--bambu-primary) 0%, var(--bambu-primary-dark) 100%);
   border-bottom: none;
-  border-radius: 1rem 1rem 0 0 !important;
+  border-radius: 0.5rem 0.5rem 0 0 !important;
   padding: 1.25rem 1.5rem;
   color: white;
   font-weight: 600;
@@ -266,15 +266,16 @@
 
 /* Tablas mejoradas */
 .table-bambu {
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: var(--bambu-shadow);
 }
 
 .table-bambu thead th {
-  background: var(--bambu-secondary);
+  background: white;
   color: var(--bambu-primary-dark);
   border: none;
+  border-bottom: 2px solid var(--bambu-primary);
   font-weight: 600;
   padding: 1rem;
 }
@@ -292,15 +293,15 @@
 /* Modales mejorados */
 .modal-content-bambu {
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   box-shadow: var(--bambu-shadow-lg);
 }
 
 .modal-header-bambu {
-  background: linear-gradient(135deg, var(--bambu-secondary) 0%, var(--bambu-secondary-dark) 100%);
-  color: var(--bambu-primary-dark);
+  background: linear-gradient(135deg, var(--bambu-primary) 0%, var(--bambu-primary-dark) 100%);
+  color: white;
   border-bottom: none;
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
   padding: 1.5rem;
 }
 
@@ -311,14 +312,14 @@
 .modal-footer-bambu {
   border-top: 1px solid var(--bambu-gray-200);
   padding: 1.5rem;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 /* Página principal / Dashboard */
 .dashboard-card {
   background: linear-gradient(135deg, white 0%, var(--bambu-gray-100) 100%);
   border: 1px solid var(--bambu-gray-200);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   padding: 1.5rem;
   text-align: center;
   transition: all 0.3s ease;
@@ -631,6 +632,28 @@
     margin-right: 0;
   }
 }
+
+/* Dropdown fixes para z-index */
+.dropdown-menu.show {
+  z-index: 10050 !important;
+  position: fixed !important;
+}
+
+.position-relative:has(.dropdown-menu.show) {
+  z-index: 10049 !important;
+}
+
+/* Asegurar que las cards no interfieran con dropdowns */
+.card-bambu:has(.dropdown-menu.show) {
+  z-index: 10048 !important;
+  position: relative;
+}
+
+.card-bambu:has(.dropdown-menu.show):hover {
+  transform: none !important;
+}
+
+/* Simplified dropdown z-index management */
 
 /* Preparación para modo oscuro */
 [data-theme="dark"] {
