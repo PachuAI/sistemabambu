@@ -8,17 +8,24 @@ class Vehiculo extends Model
 {
     protected $fillable = [
         'nombre',
+        'patente',
         'capacidad_bultos',
-        'activo'
+        'estado',
+        'descripcion'
     ];
 
     protected $casts = [
-        'activo' => 'boolean',
+        'estado' => 'string',
     ];
 
     public function scopeActivos($query)
     {
-        return $query->where('activo', true);
+        return $query->where('estado', 'disponible');
+    }
+
+    public function scopeDisponibles($query)
+    {
+        return $query->where('estado', 'disponible');
     }
 
     public function repartos()

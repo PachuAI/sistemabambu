@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('patente')->unique();
             $table->integer('capacidad_bultos');
-            $table->boolean('activo')->default(true);
+            $table->enum('estado', ['disponible', 'en_ruta', 'mantenimiento', 'inactivo'])->default('disponible');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

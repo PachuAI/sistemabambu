@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             NivelDescuentoSeeder::class,
             ProductoSeeder::class,
             ClienteSeeder::class,
+            VehiculoSeeder::class,
+            PedidoSeeder::class,
         ]);
 
         // Crear usuario admin para Filament

@@ -16,91 +16,128 @@ class ClienteSeeder extends Seeder
     {
         $ciudades = Ciudad::all();
         
-        // Clientes realistas de Río Negro y Neuquén para pruebas del cotizador
+        // Clientes comerciales realistas de Neuquén y Río Negro
         $clientes = [
-            // Bariloche (Río Negro)
+            // NEUQUÉN CAPITAL
             [
-                'nombre' => 'Hotel Cacique Inacayal',
-                'direccion' => 'Av. Bustillo 1200, Llao Llao',
-                'telefono' => '2944-448-530',
-                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
-            ],
-            [
-                'nombre' => 'Carnicería La Patagónica',
-                'direccion' => 'Mitre 525, Centro Cívico',
-                'telefono' => '2944-422-815',
-                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
-            ],
-            [
-                'nombre' => 'Hostería Las Cartas',
-                'direccion' => 'Onelli 1155, Centro',
-                'telefono' => '2944-425-674',
-                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
-            ],
-            
-            // Neuquén Capital
-            [
-                'nombre' => 'Carrefour Neuquén',
-                'direccion' => 'Av. Argentina 2450, Centro',
+                'nombre' => 'Carrefour Neuquén Centro',
+                'direccion' => 'Av. Argentina 2450',
                 'telefono' => '299-442-8800',
+                'email' => 'compras.neuquen@carrefour.com.ar',
                 'ciudad_id' => $ciudades->where('nombre', 'Neuquén')->first()?->id,
             ],
             [
-                'nombre' => 'Restaurant El Cardón',
-                'direccion' => 'Roca 887, Centro Neuquén',
-                'telefono' => '299-442-1234',
+                'nombre' => 'Supermercado Vea Portal Patagonia',
+                'direccion' => 'Ruta Provincial 7 km 9',
+                'telefono' => '299-440-1500',
+                'email' => 'gerencia@veapatgonia.com.ar',
                 'ciudad_id' => $ciudades->where('nombre', 'Neuquén')->first()?->id,
             ],
             [
-                'nombre' => 'Hotel Carwash Premium',
-                'direccion' => 'Santa Fe 145, Neuquén Capital',
-                'telefono' => '299-448-7777',
+                'nombre' => 'Mercado Central Carlos Fuentes',
+                'direccion' => 'San Martín 456',
+                'telefono' => '299-448-2156',
+                'email' => 'mercadocentral@neuquen.gov.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'Neuquén')->first()?->id,
+            ],
+            [
+                'nombre' => 'Restaurant Don Mario',
+                'direccion' => 'Belgrano 234',
+                'telefono' => '299-442-7890',
+                'email' => 'donmario@patagonia.com.ar',
                 'ciudad_id' => $ciudades->where('nombre', 'Neuquén')->first()?->id,
             ],
             
-            // Viedma (Río Negro)
+            // SAN CARLOS DE BARILOCHE
             [
-                'nombre' => 'Supermercado Carrefour',
-                'direccion' => 'Av. Caseros 890, Viedma Centro',
-                'telefono' => '2920-422-456',
-                'ciudad_id' => $ciudades->where('nombre', 'Viedma')->first()?->id,
+                'nombre' => 'Hotel Llao Llao Resort',
+                'direccion' => 'Av. Bustillo 1200',
+                'telefono' => '2944-448-530',
+                'email' => 'compras@llaollao.com',
+                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
             ],
             [
-                'nombre' => 'Parrilla El Carbón',
-                'direccion' => 'Rivadavia 234, Viedma',
-                'telefono' => '2920-425-111',
-                'ciudad_id' => $ciudades->where('nombre', 'Viedma')->first()?->id,
+                'nombre' => 'Supermercado La Anónima',
+                'direccion' => 'Mitre 525',
+                'telefono' => '2944-422-815',
+                'email' => 'bariloche@lanonima.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
+            ],
+            [
+                'nombre' => 'Chocolatería Havanna',
+                'direccion' => 'Bartolomé Mitre 298',
+                'telefono' => '2944-425-674',
+                'email' => 'havanna.bariloche@havanna.com',
+                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
             ],
             
-            // Villa Carlos Paz (si existe en el seeder)
+            // CIPOLLETTI
             [
-                'nombre' => 'Villa La Angostura Resort',
-                'direccion' => 'Costanera Norte 1500',
-                'telefono' => '2944-421-999',
+                'nombre' => 'Hipermercado Carrefour Cipolletti',
+                'direccion' => 'Roca 1145',
+                'telefono' => '299-477-2200',
+                'email' => 'cipolletti@carrefour.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'Cipolletti')->first()?->id,
+            ],
+            [
+                'nombre' => 'Mercado Municipal María Elena',
+                'direccion' => 'España 567',
+                'telefono' => '299-477-1890',
+                'email' => 'mercado@cipolletti.gov.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'Cipolletti')->first()?->id,
+            ],
+            
+            // GENERAL ROCA
+            [
+                'nombre' => 'Supermercado Disco Roca',
+                'direccion' => 'Av. Roca 1200',
+                'telefono' => '298-443-2567',
+                'email' => 'roca@disco.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'General Roca')->first()?->id,
+            ],
+            [
+                'nombre' => 'Restaurant El Parrón',
+                'direccion' => 'Tucumán 345',
+                'telefono' => '298-443-1789',
+                'email' => 'elparron@roca.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'General Roca')->first()?->id,
+            ],
+            
+            // ZAPALA
+            [
+                'nombre' => 'Supermercado Norte',
+                'direccion' => 'Etcheluz 456',
+                'telefono' => '2942-421-456',
+                'email' => 'norte@zapala.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'Zapala')->first()?->id,
+            ],
+            
+            // SAN MARTÍN DE LOS ANDES
+            [
+                'nombre' => 'Hotel Portal de los Andes',
+                'direccion' => 'San Martín 950',
+                'telefono' => '2972-427-890',
+                'email' => 'portal@sanmartin.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'San Martín de los Andes')->first()?->id,
+            ],
+            
+            // VILLA LA ANGOSTURA
+            [
+                'nombre' => 'Hostería Angostura',
+                'direccion' => 'Av. Arrayanes 234',
+                'telefono' => '2944-494-567',
+                'email' => 'hosteria@angostura.com.ar',
                 'ciudad_id' => $ciudades->where('nombre', 'Villa La Angostura')->first()?->id,
             ],
             
-            // Zapala (Neuquén)
+            // VIEDMA
             [
-                'nombre' => 'Carnicería Don Carlos',
-                'direccion' => 'Etcheluz 456, Zapala Centro',
-                'telefono' => '2942-421-456',
-                'ciudad_id' => $ciudades->where('nombre', 'Zapala')->first()?->id ?? $ciudades->where('nombre', 'Neuquén')->first()?->id,
-            ],
-            
-            // Clientes adicionales para mejorar las pruebas
-            [
-                'nombre' => 'Carmen\'s Café & Bistro',
-                'direccion' => 'Belgrano 678, Centro',
-                'telefono' => '2944-430-789',
-                'ciudad_id' => $ciudades->where('nombre', 'San Carlos de Bariloche')->first()?->id,
-            ],
-            [
-                'nombre' => 'Autolavado Central',
-                'direccion' => 'Ruta 40 km 2100',
-                'telefono' => '299-445-2222',
-                'ciudad_id' => $ciudades->where('nombre', 'Neuquén')->first()?->id,
-            ],
+                'nombre' => 'Supermercado Coto Viedma',
+                'direccion' => 'Av. Caseros 890',
+                'telefono' => '2920-422-456',
+                'email' => 'viedma@coto.com.ar',
+                'ciudad_id' => $ciudades->where('nombre', 'Viedma')->first()?->id,
+            ]
         ];
 
         foreach ($clientes as $cliente) {

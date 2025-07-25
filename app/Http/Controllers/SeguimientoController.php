@@ -14,7 +14,7 @@ class SeguimientoController extends Controller
         $vehiculoSeleccionado = $request->get('vehiculo_id');
         
         // Obtener vehículos activos
-        $vehiculos = Vehiculo::where('activo', true)->get();
+        $vehiculos = Vehiculo::activos()->get();
         
         // Obtener repartos del día
         $query = Reparto::where('fecha_reparto', $fechaSeleccionada)
