@@ -1,0 +1,185 @@
+/* Modern UI - Dark Theme for BAMBU System */
+
+/* Variables */
+:root {
+    --modern-bg-950: #0f0f23;
+    --modern-bg-900: #1a1a2e;
+    --modern-bg-800: #16213e;
+    --modern-bg-700: #2a2d47;
+    --modern-border: #2a2d47;
+    --modern-text-primary: #f8fafc;
+    --modern-text-secondary: #cbd5e1;
+    --modern-text-muted: #94a3b8;
+    --modern-primary: #8B5CF6;
+    --modern-primary-dark: #7C3AED;
+    --modern-primary-light: #A78BFA;
+}
+
+/* Dark background override for test page */
+body.modern-ui {
+    background-color: var(--modern-bg-950) !important;
+    color: var(--modern-text-primary) !important;
+    background-image: none !important;
+}
+
+/* Cards */
+.modern-card-primary {
+    background-color: var(--modern-bg-900);
+    border: 1px solid var(--modern-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.modern-card-secondary {
+    background-color: var(--modern-bg-800);
+    border: 1px solid var(--modern-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.modern-btn-primary {
+    background-color: var(--modern-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.modern-btn-primary:hover {
+    background-color: var(--modern-primary-dark);
+    transform: scale(1.02);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    color: white;
+    text-decoration: none;
+}
+
+.modern-btn-secondary {
+    background-color: var(--modern-bg-800);
+    color: var(--modern-text-primary);
+    border: 1px solid var(--modern-border);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.modern-btn-secondary:hover {
+    background-color: var(--modern-bg-700);
+    color: var(--modern-text-primary);
+    text-decoration: none;
+}
+
+/* Tables */
+.modern-table {
+    width: 100%;
+    font-size: 0.875rem;
+}
+
+.modern-table thead {
+    background-color: var(--modern-bg-800);
+    border-bottom: 1px solid var(--modern-border);
+}
+
+.modern-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--modern-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.modern-table tbody tr {
+    border-bottom: 1px solid var(--modern-border);
+    transition: background-color 0.15s;
+}
+
+.modern-table tbody tr:hover {
+    background-color: rgba(22, 33, 62, 0.5);
+}
+
+.modern-table td {
+    padding: 0.75rem 1rem;
+    color: var(--modern-text-secondary);
+}
+
+/* Badges */
+.modern-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.modern-badge-delivered {
+    background-color: rgba(16, 185, 129, 0.3);
+    color: #86efac;
+    border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.modern-badge-planned {
+    background-color: rgba(139, 92, 246, 0.3);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.5);
+}
+
+/* Text colors */
+.modern-text-primary {
+    color: var(--modern-text-primary);
+}
+
+.modern-text-secondary {
+    color: var(--modern-text-secondary);
+}
+
+.modern-text-muted {
+    color: var(--modern-text-muted);
+}
+
+.modern-text-primary-color {
+    color: var(--modern-primary);
+}
+
+/* Utility classes */
+.modern-p-6 {
+    padding: 1.5rem;
+}
+
+.modern-p-4 {
+    padding: 1rem;
+}
+
+.modern-mb-4 {
+    margin-bottom: 1rem;
+}
+
+.modern-mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.modern-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix Bootstrap elements for dark theme */
+.modern-ui .navbar {
+    background-color: var(--modern-bg-900) !important;
+    border-bottom: 1px solid var(--modern-border);
+}
+
+.modern-ui .alert-info {
+    background-color: var(--modern-bg-800);
+    border-color: var(--modern-border);
+    color: var(--modern-text-secondary);
+}

@@ -30,6 +30,40 @@ Route::get('/test', function () {
     return 'Sistema funcionando correctamente';
 });
 
+// Ruta de prueba para UI moderno
+Route::get('/test-modern', function () {
+    return view('dashboard.test-modern');
+})->name('test.modern');
+
+// Ruta para home moderno
+Route::get('/home-modern', function () {
+    return view('home-modern');
+})->name('home.modern');
+
+// Ruta para clientes moderno
+Route::get('/clientes-modern', function () {
+    $clientes = \App\Models\Cliente::with('ciudad')->paginate(15);
+    return view('clientes.index-modern', compact('clientes'));
+})->name('clientes.modern');
+
+// Ruta para detalle de cliente moderno
+Route::get('/clientes/{cliente}/modern', function (\App\Models\Cliente $cliente) {
+    $cliente->load('ciudad');
+    return view('clientes.show-modern', compact('cliente'));
+})->name('clientes.show.modern');
+
+// Ruta para editar cliente moderno
+Route::get('/clientes/{cliente}/edit-modern', function (\App\Models\Cliente $cliente) {
+    $ciudades = \App\Models\Ciudad::orderBy('nombre')->get();
+    return view('clientes.edit-modern', compact('cliente', 'ciudades'));
+})->name('clientes.edit.modern');
+
+// Ruta para crear cliente moderno
+Route::get('/clientes/create-modern', function () {
+    $ciudades = \App\Models\Ciudad::orderBy('nombre')->get();
+    return view('clientes.create-modern', compact('ciudades'));
+})->name('clientes.create.modern');
+
 Route::resource('ciudades',  CiudadController::class);
 Route::resource('clientes',  ClienteController::class);
 Route::resource('productos', ProductoController::class);

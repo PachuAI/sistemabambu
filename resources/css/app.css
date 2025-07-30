@@ -8,4 +8,162 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    
+    /* Paleta Violeta CRM BAMBU */
+    --color-primary-950: #0f0a2d;
+    --color-primary-900: #1e1b4b;
+    --color-primary-800: #312e81;
+    --color-primary-700: #3730a3;
+    --color-primary-600: #4f46e5;
+    --color-primary-500: #6366f1;
+    --color-primary-400: #818cf8;
+    --color-primary-300: #a5b4fc;
+    --color-primary-200: #c7d2fe;
+    --color-primary-100: #e0e7ff;
+    --color-primary-50: #f0f4ff;
+
+    /* Grises Oscuros para Dark Mode */
+    --color-gray-950: #0f0f23;
+    --color-gray-900: #1a1a2e;
+    --color-gray-800: #16213e;
+    --color-gray-750: #1f2937;
+    --color-gray-700: #2a2d47;
+    --color-gray-600: #4a5568;
+    --color-gray-500: #6b7280;
+    --color-gray-400: #9ca3af;
+    --color-gray-300: #d1d5db;
+    --color-gray-200: #e5e7eb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-50: #f9fafb;
+
+    /* Colores de Estado */
+    --color-success: #10b981;
+    --color-success-dark: #059669;
+    --color-warning: #f59e0b;
+    --color-warning-dark: #d97706;
+    --color-error: #ef4444;
+    --color-error-dark: #dc2626;
+    --color-info: #3b82f6;
+    --color-info-dark: #2563eb;
+
+    /* Estados de Entrega */
+    --color-status-planned: #8b5cf6;
+    --color-status-in-route: #f59e0b;
+    --color-status-delivered: #10b981;
+    --color-status-failed: #ef4444;
+
+    /* Estados de Stock */
+    --color-stock-high: #10b981;
+    --color-stock-medium: #f59e0b;
+    --color-stock-low: #ef4444;
+    --color-stock-out: #6b7280;
+
+    /* Textos para Dark Mode */
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #94a3b8;
+}
+
+/* Dark mode por defecto */
+:root {
+    color-scheme: dark;
+}
+
+/* Configuración base para dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Clases base con prefijo tw- para coexistencia con Bootstrap */
+@layer base {
+    .tw-dark {
+        color-scheme: dark;
+    }
+}
+
+/* Estilos base para el body en modo moderno */
+body.tw-modern {
+    @apply tw-bg-gray-950 tw-text-gray-100 tw-antialiased;
+}
+
+/* Componentes base del sistema con prefijo tw- */
+.tw-card-primary {
+    @apply tw-bg-gray-900 tw-border tw-border-gray-700 tw-rounded-lg tw-shadow-lg;
+}
+
+.tw-card-secondary {
+    @apply tw-bg-gray-800 tw-border tw-border-gray-600 tw-rounded-lg tw-shadow-md;
+}
+
+.tw-btn-primary {
+    @apply tw-bg-bambu-primary hover:tw-bg-bambu-primary-dark tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-medium tw-transition-all tw-duration-200 tw-shadow-sm hover:tw-shadow-lg hover:tw-scale-[1.02];
+}
+
+.tw-btn-secondary {
+    @apply tw-bg-gray-800 hover:tw-bg-gray-700 tw-text-gray-100 tw-border tw-border-gray-600 tw-px-4 tw-py-2 tw-rounded-lg tw-font-medium tw-transition-colors;
+}
+
+.tw-btn-danger {
+    @apply tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-medium tw-transition-colors;
+}
+
+.tw-table-dense {
+    @apply tw-w-full tw-text-sm;
+}
+
+.tw-table-dense thead {
+    @apply tw-bg-gray-800 tw-border-b tw-border-gray-700;
+}
+
+.tw-table-dense th {
+    @apply tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-medium tw-text-gray-400 tw-uppercase tw-tracking-wider;
+}
+
+.tw-table-dense tbody {
+    @apply tw-divide-y tw-divide-gray-700;
+}
+
+.tw-table-dense tr {
+    @apply hover:tw-bg-gray-800/50 tw-transition-colors tw-duration-150;
+}
+
+.tw-table-dense td {
+    @apply tw-px-4 tw-py-3 tw-text-gray-300;
+}
+
+/* Estados y badges con prefijo */
+.tw-badge-planned {
+    @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-purple-900/30 tw-text-purple-300 tw-border tw-border-purple-700/50;
+}
+
+.tw-badge-in-route {
+    @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-yellow-900/30 tw-text-yellow-300 tw-border tw-border-yellow-700/50;
+}
+
+.tw-badge-delivered {
+    @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-green-900/30 tw-text-green-300 tw-border tw-border-green-700/50;
+}
+
+.tw-badge-failed {
+    @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-red-900/30 tw-text-red-300 tw-border tw-border-red-700/50;
+}
+
+/* Focus styles con prefijo */
+.tw-focus-ring {
+    @apply focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-bambu-primary focus:tw-ring-offset-2 focus:tw-ring-offset-gray-950;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
 }

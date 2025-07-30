@@ -47,7 +47,13 @@
       "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan optimize:clear)",
       "Bash(C:/laragon/bin/php/php-8.3.16-Win32-vs16-x64/php artisan --version)",
       "Bash(rm:*)",
-      "Bash(del \"C:\\laragon\\www\\sistemastockbambu\\create_test_reparto.php\")"
+      "Bash(del \"C:\\laragon\\www\\sistemastockbambu\\create_test_reparto.php\")",
+      "Bash(claude doctor:*)",
+      "Bash(npm:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(pkill:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }

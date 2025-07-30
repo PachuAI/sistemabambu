@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Variables CSS personalizadas */
+    :root {
+        /* Paleta Violeta BAMBU */
+        --bambu-primary: #8B5CF6;
+        --bambu-primary-dark: #7C3AED;
+        --bambu-primary-light: #A78BFA;
+        --bambu-secondary: #C4B5FD;
+        --bambu-secondary-dark: #A78BFA;
+        --bambu-secondary-light: #DDD6FE;
+        
+        /* Grises oscuros */
+        --gray-950: #0f0f23;
+        --gray-900: #1a1a2e;
+        --gray-800: #16213e;
+        --gray-750: #1f2937;
+        --gray-700: #2a2d47;
+    }
+}
+
+@layer components {
+    /* Card primaria con tema oscuro */
+    .tw-card-primary {
+        @apply tw-bg-gray-900 tw-border tw-border-gray-700 tw-rounded-lg tw-shadow-lg;
+    }
+
+    /* Card secundaria */
+    .tw-card-secondary {
+        @apply tw-bg-gray-800 tw-border tw-border-gray-600 tw-rounded-lg tw-shadow-md;
+    }
+
+    /* Botón primario violeta */
+    .tw-btn-primary {
+        @apply tw-bg-violet-600 hover:tw-bg-violet-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-medium tw-transition-all tw-duration-200 tw-shadow-sm hover:tw-shadow-lg hover:tw-scale-[1.02];
+    }
+
+    /* Botón secundario */
+    .tw-btn-secondary {
+        @apply tw-bg-gray-800 hover:tw-bg-gray-700 tw-text-gray-100 tw-border tw-border-gray-600 tw-px-4 tw-py-2 tw-rounded-lg tw-font-medium tw-transition-colors;
+    }
+
+    /* Tabla densa */
+    .tw-table-dense {
+        @apply tw-w-full tw-text-sm;
+    }
+
+    .tw-table-dense thead {
+        @apply tw-bg-gray-800 tw-border-b tw-border-gray-700;
+    }
+
+    .tw-table-dense th {
+        @apply tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-medium tw-text-gray-400 tw-uppercase tw-tracking-wider;
+    }
+
+    .tw-table-dense tbody {
+        @apply tw-divide-y tw-divide-gray-700;
+    }
+
+    .tw-table-dense tr {
+        @apply hover:tw-bg-gray-800/50 tw-transition-colors tw-duration-150;
+    }
+
+    .tw-table-dense td {
+        @apply tw-px-4 tw-py-3 tw-text-gray-300;
+    }
+
+    /* Badges de estado */
+    .tw-badge-planned {
+        @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-purple-900/30 tw-text-purple-300 tw-border tw-border-purple-700/50;
+    }
+
+    .tw-badge-in-route {
+        @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-yellow-900/30 tw-text-yellow-300 tw-border tw-border-yellow-700/50;
+    }
+
+    .tw-badge-delivered {
+        @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-green-900/30 tw-text-green-300 tw-border tw-border-green-700/50;
+    }
+
+    .tw-badge-failed {
+        @apply tw-inline-flex tw-items-center tw-px-2.5 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-medium tw-bg-red-900/30 tw-text-red-300 tw-border tw-border-red-700/50;
+    }
+}
+
+/* Colores personalizados que no están en Tailwind por defecto */
+@layer utilities {
+    .tw-bg-gray-950 {
+        background-color: #0f0f23;
+    }
+    
+    .tw-bg-gray-900 {
+        background-color: #1a1a2e;
+    }
+    
+    .tw-bg-gray-800 {
+        background-color: #16213e;
+    }
+    
+    .tw-border-gray-700 {
+        border-color: #2a2d47;
+    }
+    
+    .tw-text-bambu-primary {
+        color: #8B5CF6;
+    }
+    
+    .tw-bg-bambu-primary {
+        background-color: #8B5CF6;
+    }
+    
+    .hover\:tw-text-bambu-primary-light:hover {
+        color: #A78BFA;
+    }
+}

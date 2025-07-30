@@ -2,6 +2,19 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## MCP Server Installation (Global)
+
+Para instalar MCP servers que puedan utilizarse en todos los proyectos desde PowerShell:
+
+```bash
+claude mcp add context7 -s user -- cmd /c "npx -y @upstash/context7-mcp@latest"
+```
+
+**Notas importantes:**
+- Usar comillas después de `/c`
+- Incluir `-s user` para instalación global
+- Esto permite acceder a los MCP servers desde cualquier proyecto donde se inicie Claude
+
 ## Project Overview
 
 **Sistema BAMBU** is a Laravel-based stock management system for a cleaning chemical products company. It replaces fragmented legacy tools (Enexpro software + Excel spreadsheets) with a unified web application for inventory management, quotations, and delivery logistics.
@@ -67,7 +80,7 @@ Pedido → PedidoItem (1:N)
 Producto → PedidoItem (1:N)
 NivelDescuento → Pedido (1:N)
 Producto/Pedido → MovimientoStock (1:N)
-Vehiculo → Reparto (1:N)
+Vehiculo → Reparto (1:N) [estado: disponible/en_ruta/mantenimiento/inactivo]
 Pedido → Reparto (1:N)
 ```
 
@@ -135,12 +148,19 @@ if ($productos->isEmpty()) {
 - Database transactions for data integrity
 
 ### Phase 3B: Logistics and Delivery Management (✅ Complete)
-- **Vehicle Fleet Management** - Full CRUD for vehicles with capacity control
+- **Vehicle Fleet Management** - Full CRUD for vehicles with capacity control using `estado` enum
 - **Daily Route Planning** - Visual dashboard with weekly calendar navigation
 - **Smart Delivery Assignment** - Modal-based system with capacity validation
-- **Real-time Delivery Tracking** - Status management (planificado → en_ruta → entregado)
+- **Real-time Delivery Tracking** - Traditional controller-based status management (planificado → en_ruta → entregado)
 - **City-based Logistics Summary** - Consolidated reports for strategic planning
 - **UX Improvements** - Double-click prevention, modal state reset, organized navigation
+
+### Demo Data System (✅ Complete)
+- **Realistic Geographic Data** - 15 real cities from Neuquén and Río Negro with postal codes and coordinates
+- **Commercial Client Database** - 15 realistic businesses (Carrefour, La Anónima, Hotel Llao Llao, etc.)
+- **Complete Product Catalog** - 10 BAMBU products (own brand) + 10 SAPHIRUS products (resale)
+- **Vehicle Fleet Data** - 4 delivery vehicles with different capacities (150, 120, 80, 50 bultos)
+- **Sample Orders** - 3 realistic test orders from major commercial clients
 
 ### Discount System Logic
 
@@ -184,7 +204,7 @@ MovimientoStock::create([
 /pedidos/{id} - Order detail view
 /vehiculos - Vehicle fleet management
 /repartos - Daily delivery planning dashboard
-/seguimiento-entregas - Real-time delivery tracking
+/seguimiento-entregas - Real-time delivery tracking (traditional controller)
 /admin - Filament admin panel
 /api/search/clientes - Client autocomplete API
 /api/search/productos - Product autocomplete API
@@ -265,6 +285,24 @@ form.addEventListener('submit', function(e) {
 ### Search Not Working
 **Solution:** Re-run scout import or check hybrid search fallback implementation
 
+### Vehiculo Model Schema Migration Issue
+**Issue:** Column 'activo' not found errors after updating vehicle table structure
+**Symptoms:** SQL errors when accessing vehicle management pages
+**Solution:** Update model fillable and scopes to use 'estado' enum instead of 'activo' boolean
+```php
+// ❌ Old structure - causes column not found errors
+protected $fillable = ['nombre', 'capacidad_bultos', 'activo'];
+public function scopeActivos($query) {
+    return $query->where('activo', true);
+}
+
+// ✅ New structure - works with updated migration
+protected $fillable = ['nombre', 'patente', 'capacidad_bultos', 'estado', 'descripcion'];
+public function scopeActivos($query) {
+    return $query->where('estado', 'disponible');
+}
+```
+
 ### Windows Path Issues
 **Solution:** Use full Laragon paths or set PATH as shown above
 
@@ -281,9 +319,10 @@ Key business decision: Unified stock control for ALL products (both manufactured
 
 ### Vehicle Management Features
 - Vehicle CRUD with capacity control (bultos)
-- Active/inactive status management
-- Capacity utilization tracking
-- Real-time availability calculation
+- Estado enum management (disponible/en_ruta/mantenimiento/inactivo)
+- Patente (license plate) unique identification
+- Capacity utilization tracking with real-time availability calculation
+- Vehicle fleet includes: Ford Transit 350, Renault Kangoo, VW Amarok, Fiat Fiorino
 
 ### Delivery Planning Features
 - **Weekly Calendar Navigation** - Dynamic week view with delivery counters
@@ -317,11 +356,11 @@ Key business decision: Unified stock control for ALL products (both manufactured
 ### Logistics System
 - `app/Http/Controllers/VehiculoController.php` - Vehicle fleet management
 - `app/Http/Controllers/RepartoController.php` - Delivery planning and assignment
-- `app/Livewire/SeguimientoEntregas.php` - Real-time delivery tracking
-- `app/Models/Vehiculo.php` - Vehicle model with capacity calculations
+- `app/Http/Controllers/SeguimientoController.php` - Real-time delivery tracking (traditional controller)
+- `app/Models/Vehiculo.php` - Vehicle model with capacity calculations and estado enum
 - `app/Models/Reparto.php` - Delivery assignment model
 - `resources/views/repartos/index.blade.php` - Daily planning dashboard
-- `resources/views/livewire/seguimiento-entregas.blade.php` - Tracking interface
+- `resources/views/seguimiento/index.blade.php` - Tracking interface
 
 ### Documentation
 - `documentacion/00_Requerimientos.md` - Complete business requirements
