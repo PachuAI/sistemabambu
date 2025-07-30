@@ -54,7 +54,10 @@
       "mcp__context7__get-library-docs",
       "Bash(pkill:*)",
       "Bash(cp:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(npx:*)",
+      "Bash(sc query:*)",
+      "Bash(C:laragonlaragon.exe)"
     ],
     "deny": []
   }

@@ -20,7 +20,7 @@
             margin-bottom: 2rem;
             padding: 1.5rem 0;
             max-width: 1400px;
-            width: 95%;
+            width: 100%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -65,7 +65,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
             overflow: hidden !important;
             max-width: 1400px !important;
-            width: 95% !important;
+            width: 100% !important;
             margin: 0 auto !important;
         }
         

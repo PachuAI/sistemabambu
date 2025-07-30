@@ -105,6 +105,11 @@ Route::get('/productos-modern', function () {
     return view('productos.index-modern', compact('productos'));
 })->name('productos.modern');
 
+// Ruta para crear producto moderno
+Route::get('/productos/create-modern', function () {
+    return view('productos.create-modern');
+})->name('productos.create.modern');
+
 Route::resource('ciudades',  CiudadController::class);
 Route::resource('clientes',  ClienteController::class);
 Route::resource('productos', ProductoController::class);
