@@ -64,6 +64,47 @@ Route::get('/clientes/create-modern', function () {
     return view('clientes.create-modern', compact('ciudades'));
 })->name('clientes.create.modern');
 
+// Ruta para productos moderno
+Route::get('/productos-modern', function () {
+    $request = request();
+    $query = \App\Models\Producto::query();
+
+    // Búsqueda por texto
+    if ($request->filled('search')) {
+        $search = $request->get('search');
+        $query->where(function($q) use ($search) {
+            $q->where('nombre', 'LIKE', "%{$search}%")
+              ->orWhere('sku', 'LIKE', "%{$search}%")
+              ->orWhere('descripcion', 'LIKE', "%{$search}%");
+        });
+    }
+
+    // Filtro por marca de producto
+    if ($request->filled('marca_producto') && $request->get('marca_producto') !== 'todos') {
+        $query->where('marca_producto', $request->get('marca_producto'));
+    }
+
+    // Filtro por stock bajo (menos de 10 unidades)
+    if ($request->filled('stock_bajo') && $request->get('stock_bajo') === '1') {
+        $query->where('stock_actual', '<', 10);
+    }
+
+    // Ordenamiento
+    $orderBy = $request->get('order_by', 'nombre');
+    $orderDirection = $request->get('order_direction', 'asc');
+    
+    $allowedOrderBy = ['nombre', 'sku', 'stock_actual', 'precio_base_l1', 'marca_producto'];
+    if (in_array($orderBy, $allowedOrderBy)) {
+        $query->orderBy($orderBy, $orderDirection);
+    } else {
+        $query->orderBy('nombre', 'asc');
+    }
+
+    $productos = $query->paginate(20)->appends($request->query());
+    
+    return view('productos.index-modern', compact('productos'));
+})->name('productos.modern');
+
 Route::resource('ciudades',  CiudadController::class);
 Route::resource('clientes',  ClienteController::class);
 Route::resource('productos', ProductoController::class);
